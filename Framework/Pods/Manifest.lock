@@ -1,0 +1,19 @@
+PODS:
+  - MKHSyncSession (1.1.0)
+
+DEPENDENCIES:
+  - MKHSyncSession (from `https://github.com/maximkhatskevich/MKHSyncSession.git`)
+
+EXTERNAL SOURCES:
+  MKHSyncSession:
+    :git: https://github.com/maximkhatskevich/MKHSyncSession.git
+
+CHECKOUT OPTIONS:
+  MKHSyncSession:
+    :commit: ccd5032fb93a30478d487bbb3aeda9e09daae914
+    :git: https://github.com/maximkhatskevich/MKHSyncSession.git
+
+SPEC CHECKSUMS:
+  MKHSyncSession: e2289593f44171b74bb36715a1d0a7b3eb484047
+
+COCOAPODS: 0.39.0

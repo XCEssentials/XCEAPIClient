@@ -1,0 +1,10 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+
+workspace 'MKHCustomAPI'
+xcodeproj 'MKHCustomAPI'
+
+use_frameworks!
+
+pod 'MKHSyncSession', :git => 'https://github.com/maximkhatskevich/MKHSyncSession.git'
