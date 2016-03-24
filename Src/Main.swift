@@ -5,6 +5,7 @@
 //  Created by Maxim Khatskevich on 3/23/16.
 //  Copyright © 2016 Maxim Khatskevich. All rights reserved.
 //
+//  Inspired by https://thatthinginswift.com/write-your-own-api-clients-swift/
 
 import MKHSyncSession
 
