@@ -50,7 +50,7 @@ public enum ParameterEncoding
     public func encode(
         request: NSMutableURLRequest,
         parameters: [String: AnyObject]?)
-        -> (NSMutableURLRequest, NSError?)
+        -> (request: NSMutableURLRequest, error: NSError?)
     {
         guard
             let parameters = parameters
