@@ -11,22 +11,22 @@ import MKHSyncSession
 
 //===
 
-//public
-//enum HTTPHeaderFieldName: String
-//{
-//    case
-//    Authorization,
-//    ContentType = "Content-Type"
-//}
+public
+enum HTTPHeaderFieldName: String
+{
+    case
+        Authorization,
+        ContentType = "Content-Type"
+}
 
 //===
 
-//public
-//enum ContentType: String
-//{
-//    case
-//    FormURLEncoded = "application/x-www-form-urlencoded"
-//}
+public
+enum ContentType: String
+{
+    case
+        FormURLEncoded = "application/x-www-form-urlencoded"
+}
 
 //===
 
