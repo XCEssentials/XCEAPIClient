@@ -48,6 +48,11 @@ enum HTTPMethod: String
 //===
 
 public
+typealias Parameters = [String: AnyObject]
+
+//===
+
+public
 protocol APIClientCore
 {
     static
@@ -57,7 +62,7 @@ protocol APIClientCore
     var basePath: String! { get }
     
     static
-    var onConfigureRequest: (NSMutableURLRequest, [String: AnyObject]?) -> NSMutableURLRequest { get }
+    var onConfigureRequest: (NSMutableURLRequest, Parameters?) -> NSMutableURLRequest { get }
     
     static
     var onDidPrepareRequest: (NSMutableURLRequest) -> NSMutableURLRequest { get }
@@ -82,7 +87,7 @@ extension APIClientCore // common functionality
     func prepareRequest(
         method: HTTPMethod,
         relativePath: String,
-        parameters: [String: AnyObject]? = nil) -> NSURLRequest
+        parameters: Parameters? = nil) -> NSURLRequest
     {
         var result =
             NSMutableURLRequest(URL:
@@ -111,7 +116,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func get(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func get(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -120,7 +125,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func post(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func post(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -129,7 +134,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func put(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func put(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -138,7 +143,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func patch(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func patch(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -147,7 +152,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func delete(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func delete(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -156,7 +161,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func head(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func head(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -165,7 +170,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func trace(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func trace(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -174,7 +179,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func connect(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func connect(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -183,7 +188,7 @@ extension APIClientCore // common functionality
     
     public
     static
-    func options(relativePath: String, parameters: [String: AnyObject]? = nil) -> DataTaskResult
+    func options(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             Self.dataTask(
@@ -211,7 +216,7 @@ class API: NSObject, APIClientCore
     
     public
     static
-    var onConfigureRequest: (NSMutableURLRequest, [String: AnyObject]?) -> NSMutableURLRequest =
+    var onConfigureRequest: (NSMutableURLRequest, Parameters?) -> NSMutableURLRequest =
     {
         return ParameterEncoding.URL.encode($0, parameters: $1).request
     }
