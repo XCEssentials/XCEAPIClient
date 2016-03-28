@@ -67,6 +67,9 @@ protocol APIClientCore
     static
     var onDidPrepareRequest: (NSMutableURLRequest) -> NSMutableURLRequest { get }
     
+    static
+    var onDidReceiveDataResponse: (NSURLRequest, DataTaskResult) -> Void { get }
+    
     // call this method before start using the class
     // handle initial configuration here
     static
@@ -109,7 +112,15 @@ extension APIClientCore // common functionality
     static
     func dataTask(request: NSURLRequest) -> DataTaskResult
     {
-        return session.dataTaskSync(request)
+        let result = session.dataTaskSync(request)
+        
+        //===
+        
+        onDidReceiveDataResponse(request, result)
+        
+        //===
+        
+        return result
     }
     
     //=== Public members
@@ -224,6 +235,10 @@ class API: NSObject, APIClientCore
     public
     static
     var onDidPrepareRequest: (NSMutableURLRequest) -> NSMutableURLRequest = { return $0 }
+    
+    public
+    static
+    var onDidReceiveDataResponse: (NSURLRequest, DataTaskResult) -> Void = { (_, _) in }
     
     public
     class
