@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                      = 'MKHCustomAPI'
-  s.version                   = '1.0.1'
+  s.version                   = '1.0.2'
   s.summary                   = 'Tiny extension for NSURLSession that enables synchronous task execution written in Swift.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
   s.license                   = { :type => 'MIT', :file => 'LICENSE' }
