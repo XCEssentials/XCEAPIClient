@@ -59,7 +59,7 @@ public
 typealias OnDidPrepareRequestBlock = (NSMutableURLRequest) -> NSMutableURLRequest
 
 public
-typealias OnDidReceiveDataResponse = (NSURLRequest, DataTaskResult) -> Void
+typealias OnDidReceiveDataResponseBlock = (NSURLRequest, DataTaskResult) -> Void
 
 public
 protocol APIClientCore
@@ -72,7 +72,7 @@ protocol APIClientCore
     
     var onDidPrepareRequest: OnDidPrepareRequestBlock? { get }
     
-    var onDidReceiveDataResponse: OnDidReceiveDataResponse? { get }
+    var onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? { get }
     
     init(
         basePath: String,
@@ -81,7 +81,7 @@ protocol APIClientCore
         sessionDelegateQueue: NSOperationQueue?,
         onConfigureRequest: OnConfigureRequestBlock?,
         onDidPrepareRequest: OnDidPrepareRequestBlock?,
-        onDidReceiveDataResponse: OnDidReceiveDataResponse?)
+        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?)
 }
 
 //===
@@ -237,7 +237,7 @@ struct APIClient: APIClientCore
     let onDidPrepareRequest: OnDidPrepareRequestBlock?
     
     public
-    let onDidReceiveDataResponse: OnDidReceiveDataResponse?
+    let onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?
     
     public
     init(
@@ -247,7 +247,7 @@ struct APIClient: APIClientCore
         sessionDelegateQueue: NSOperationQueue? = nil,
         onConfigureRequest: OnConfigureRequestBlock? = nil,
         onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
-        onDidReceiveDataResponse: OnDidReceiveDataResponse? = nil)
+        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil)
     {
         self.basePath = basePath
         
