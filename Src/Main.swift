@@ -76,12 +76,12 @@ protocol APIClientCore
     
     init(
         basePath: String,
-        sessionConfig: NSURLSessionConfiguration,
-        sessionDelegate: NSURLSessionDelegate?,
-        sessionDelegateQueue: NSOperationQueue?,
         onConfigureRequest: OnConfigureRequestBlock?,
         onDidPrepareRequest: OnDidPrepareRequestBlock?,
-        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?)
+        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?,
+        sessionConfig: NSURLSessionConfiguration?,
+        sessionDelegate: NSURLSessionDelegate?,
+        sessionDelegateQueue: NSOperationQueue?)
 }
 
 //===
@@ -242,12 +242,12 @@ struct APIClient: APIClientCore
     public
     init(
         basePath: String,
-        sessionConfig: NSURLSessionConfiguration,
-        sessionDelegate: NSURLSessionDelegate? = nil,
-        sessionDelegateQueue: NSOperationQueue? = nil,
         onConfigureRequest: OnConfigureRequestBlock? = nil,
         onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
-        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil)
+        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil,
+        sessionConfig: NSURLSessionConfiguration? = NSURLSessionConfiguration.defaultSessionConfiguration(),
+        sessionDelegate: NSURLSessionDelegate? = nil,
+        sessionDelegateQueue: NSOperationQueue? = nil)
     {
         self.basePath = basePath
         
@@ -258,13 +258,13 @@ struct APIClient: APIClientCore
             let sessionDelegateQueue = sessionDelegateQueue
         {
             session = NSURLSession(
-                configuration: sessionConfig,
+                configuration: sessionConfig!,
                 delegate: sessionDelegate,
                 delegateQueue: sessionDelegateQueue)
         }
         else
         {
-            session = NSURLSession(configuration: sessionConfig)
+            session = NSURLSession(configuration: sessionConfig!)
         }
         
         //===
