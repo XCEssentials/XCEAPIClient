@@ -8,22 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9441AFBD1CA3920400A7D593 /* MKHCustomAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9441AFC41CA3920400A7D593 /* MKHCustomAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */; };
-		9441AFC91CA3920400A7D593 /* MKHCustomAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFC81CA3920400A7D593 /* MKHCustomAPITests.swift */; };
 		9441AFD51CA392E200A7D593 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD41CA392E200A7D593 /* Main.swift */; };
 		9441AFD71CA3A2FC00A7D593 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */; };
 		E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		9441AFC51CA3920400A7D593 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9441AFB01CA3920400A7D593 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9441AFB81CA3920400A7D593;
-			remoteInfo = MKHCustomAPI;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -32,9 +20,6 @@
 		9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MKHCustomAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKHCustomAPI.h; sourceTree = "<group>"; };
 		9441AFBE1CA3920400A7D593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9441AFC31CA3920400A7D593 /* MKHCustomAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MKHCustomAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9441AFC81CA3920400A7D593 /* MKHCustomAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKHCustomAPITests.swift; sourceTree = "<group>"; };
-		9441AFCA1CA3920400A7D593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9441AFD41CA392E200A7D593 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
 		B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -47,14 +32,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9441AFC01CA3920400A7D593 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9441AFC41CA3920400A7D593 /* MKHCustomAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +53,6 @@
 			isa = PBXGroup;
 			children = (
 				9441AFBB1CA3920400A7D593 /* MKHCustomAPI */,
-				9441AFC71CA3920400A7D593 /* MKHCustomAPITests */,
 				9441AFBA1CA3920400A7D593 /* Products */,
 				376373576B6C6783053466B5 /* Pods */,
 				EB367F4940462A1CB8A8184B /* Frameworks */,
@@ -87,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */,
-				9441AFC31CA3920400A7D593 /* MKHCustomAPITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,15 +75,6 @@
 				9441AFD31CA3922400A7D593 /* Common */,
 			);
 			path = MKHCustomAPI;
-			sourceTree = "<group>";
-		};
-		9441AFC71CA3920400A7D593 /* MKHCustomAPITests */ = {
-			isa = PBXGroup;
-			children = (
-				9441AFC81CA3920400A7D593 /* MKHCustomAPITests.swift */,
-				9441AFCA1CA3920400A7D593 /* Info.plist */,
-			);
-			path = MKHCustomAPITests;
 			sourceTree = "<group>";
 		};
 		9441AFD31CA3922400A7D593 /* Common */ = {
@@ -163,24 +129,6 @@
 			productReference = 9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		9441AFC21CA3920400A7D593 /* MKHCustomAPITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9441AFD01CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPITests" */;
-			buildPhases = (
-				9441AFBF1CA3920400A7D593 /* Sources */,
-				9441AFC01CA3920400A7D593 /* Frameworks */,
-				9441AFC11CA3920400A7D593 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9441AFC61CA3920400A7D593 /* PBXTargetDependency */,
-			);
-			name = MKHCustomAPITests;
-			productName = MKHCustomAPITests;
-			productReference = 9441AFC31CA3920400A7D593 /* MKHCustomAPITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -192,9 +140,6 @@
 				ORGANIZATIONNAME = "Maxim Khatskevich";
 				TargetAttributes = {
 					9441AFB81CA3920400A7D593 = {
-						CreatedOnToolsVersion = 7.3;
-					};
-					9441AFC21CA3920400A7D593 = {
 						CreatedOnToolsVersion = 7.3;
 					};
 				};
@@ -212,20 +157,12 @@
 			projectRoot = "";
 			targets = (
 				9441AFB81CA3920400A7D593 /* MKHCustomAPI */,
-				9441AFC21CA3920400A7D593 /* MKHCustomAPITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9441AFB71CA3920400A7D593 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9441AFC11CA3920400A7D593 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -277,23 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9441AFBF1CA3920400A7D593 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9441AFC91CA3920400A7D593 /* MKHCustomAPITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9441AFC61CA3920400A7D593 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9441AFB81CA3920400A7D593 /* MKHCustomAPI */;
-			targetProxy = 9441AFC51CA3920400A7D593 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9441AFCB1CA3920400A7D593 /* Debug */ = {
@@ -424,26 +345,6 @@
 			};
 			name = Release;
 		};
-		9441AFD11CA3920400A7D593 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MKHCustomAPITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHCustomAPITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		9441AFD21CA3920400A7D593 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MKHCustomAPITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHCustomAPITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -461,15 +362,6 @@
 			buildConfigurations = (
 				9441AFCE1CA3920400A7D593 /* Debug */,
 				9441AFCF1CA3920400A7D593 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9441AFD01CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9441AFD11CA3920400A7D593 /* Debug */,
-				9441AFD21CA3920400A7D593 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
