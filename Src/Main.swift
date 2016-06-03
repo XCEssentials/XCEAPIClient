@@ -53,31 +53,35 @@ typealias Parameters = [String: AnyObject]
 //===
 
 public
+typealias OnConfigureRequestBlock = (NSMutableURLRequest, Parameters?) -> NSMutableURLRequest
+
+public
+typealias OnDidPrepareRequestBlock = (NSMutableURLRequest) -> NSMutableURLRequest
+
+public
+typealias OnDidReceiveDataResponse = (NSURLRequest, DataTaskResult) -> Void
+
+public
 protocol APIClientCore
 {
-    static
-    var session: NSURLSession! { get }
+    var session: NSURLSession { get }
     
-    static
-    var basePath: String! { get }
+    var basePath: String { get }
     
-    static
-    var onConfigureRequest: (NSMutableURLRequest, Parameters?) -> NSMutableURLRequest { get }
+    var onConfigureRequest: OnConfigureRequestBlock { get }
     
-    static
-    var onDidPrepareRequest: (NSMutableURLRequest) -> NSMutableURLRequest { get }
+    var onDidPrepareRequest: OnDidPrepareRequestBlock? { get }
     
-    static
-    var onDidReceiveDataResponse: (NSURLRequest, DataTaskResult) -> Void { get }
+    var onDidReceiveDataResponse: OnDidReceiveDataResponse? { get }
     
-    // call this method before start using the class
-    // handle initial configuration here
-    static
-    func configure(
+    init(
         basePath: String,
         sessionConfig: NSURLSessionConfiguration,
         sessionDelegate: NSURLSessionDelegate?,
-        sessionDelegateQueue queue: NSOperationQueue?)
+        sessionDelegateQueue: NSOperationQueue?,
+        onConfigureRequest: OnConfigureRequestBlock?,
+        onDidPrepareRequest: OnDidPrepareRequestBlock?,
+        onDidReceiveDataResponse: OnDidReceiveDataResponse?)
 }
 
 //===
@@ -86,7 +90,6 @@ public
 extension APIClientCore // common functionality
 {
     private
-    static
     func prepareRequest(
         method: HTTPMethod,
         relativePath: String,
@@ -94,14 +97,20 @@ extension APIClientCore // common functionality
     {
         var result =
             NSMutableURLRequest(URL:
-                NSURL(string: Self.basePath + relativePath)!)
+                NSURL(string: basePath + relativePath)!)
         
         //===
         
         result.HTTPMethod = method.rawValue
         
         result = onConfigureRequest(result, parameters)
-        result = onDidPrepareRequest(result)
+        
+        //===
+        
+        if let onDidPrepareRequest = onDidPrepareRequest
+        {
+            result = onDidPrepareRequest(result)
+        }
         
         //===
         
@@ -109,14 +118,16 @@ extension APIClientCore // common functionality
     }
     
     private
-    static
     func dataTask(request: NSURLRequest) -> DataTaskResult
     {
         let result = session.dataTaskSync(request)
         
         //===
         
-        onDidReceiveDataResponse(request, result)
+        if let onDidReceiveDataResponse = onDidReceiveDataResponse
+        {
+            onDidReceiveDataResponse(request, result)
+        }
         
         //===
         
@@ -126,130 +137,119 @@ extension APIClientCore // common functionality
     //=== Public members
     
     public
-    static
     func get(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.GET, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.GET, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func post(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.POST, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.POST, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func put(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.PUT, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.PUT, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func patch(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.PATCH, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.PATCH, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func delete(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.DELETE, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.DELETE, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func head(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.HEAD, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.HEAD, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func trace(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.TRACE, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.TRACE, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func connect(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.CONNECT, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.CONNECT, relativePath: relativePath, parameters: parameters))
     }
     
     public
-    static
     func options(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
-            Self.dataTask(
-                Self.prepareRequest(.OPTIONS, relativePath: relativePath, parameters: parameters))
+            dataTask(
+                prepareRequest(.OPTIONS, relativePath: relativePath, parameters: parameters))
     }
 }
 
 //===
 
 public
-final
-class API: NSObject, APIClientCore
+struct APIClient: APIClientCore
 {
     //=== APIClient conformance - Public read-only members
     
-    public /*but*/ private(set)
-    static
-    var session: NSURLSession!
+    public
+    let session: NSURLSession
     
-    public /*but*/ private(set)
-    static
-    var basePath: String!
+    public
+    let basePath: String
     
     //=== APIClient conformance - Public members
     
     public
-    static
-    var onConfigureRequest: (NSMutableURLRequest, Parameters?) -> NSMutableURLRequest =
+    let onConfigureRequestDefault: OnConfigureRequestBlock =
     {
         return ParameterEncoding.URL.encode($0, parameters: $1).request
     }
     
     public
-    static
-    var onDidPrepareRequest: (NSMutableURLRequest) -> NSMutableURLRequest = { return $0 }
+    let onConfigureRequest: OnConfigureRequestBlock
     
     public
-    static
-    var onDidReceiveDataResponse: (NSURLRequest, DataTaskResult) -> Void = { (_, _) in }
+    let onDidPrepareRequest: OnDidPrepareRequestBlock?
     
     public
-    class
-    final
-    func configure(
+    let onDidReceiveDataResponse: OnDidReceiveDataResponse?
+    
+    public
+    init(
         basePath: String,
-        sessionConfig: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration(),
+        sessionConfig: NSURLSessionConfiguration,
         sessionDelegate: NSURLSessionDelegate? = nil,
-        sessionDelegateQueue: NSOperationQueue? = nil)
+        sessionDelegateQueue: NSOperationQueue? = nil,
+        onConfigureRequest: OnConfigureRequestBlock? = nil,
+        onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
+        onDidReceiveDataResponse: OnDidReceiveDataResponse? = nil)
     {
-        API.basePath = basePath
+        self.basePath = basePath
         
         //===
         
@@ -266,5 +266,21 @@ class API: NSObject, APIClientCore
         {
             session = NSURLSession(configuration: sessionConfig)
         }
+        
+        //===
+        
+        if let onConfigureRequest = onConfigureRequest
+        {
+            self.onConfigureRequest = onConfigureRequest
+        }
+        else
+        {
+            self.onConfigureRequest = onConfigureRequestDefault
+        }
+        
+        //===
+        
+        self.onDidPrepareRequest = onDidPrepareRequest
+        self.onDidReceiveDataResponse = onDidReceiveDataResponse
     }
 }
