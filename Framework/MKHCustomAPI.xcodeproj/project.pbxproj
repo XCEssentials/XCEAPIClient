@@ -113,12 +113,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPI" */;
 			buildPhases = (
-				79A4E0D52E410523084F7C76 /* 📦 Check Pods Manifest.lock */,
+				79A4E0D52E410523084F7C76 /* [CP] Check Pods Manifest.lock */,
 				9441AFB41CA3920400A7D593 /* Sources */,
 				9441AFB51CA3920400A7D593 /* Frameworks */,
 				9441AFB61CA3920400A7D593 /* Headers */,
 				9441AFB71CA3920400A7D593 /* Resources */,
-				96F903E162E064FC934A8065 /* 📦 Copy Pods Resources */,
+				96F903E162E064FC934A8065 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -172,14 +172,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		79A4E0D52E410523084F7C76 /* 📦 Check Pods Manifest.lock */ = {
+		79A4E0D52E410523084F7C76 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,14 +187,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		96F903E162E064FC934A8065 /* 📦 Copy Pods Resources */ = {
+		96F903E162E064FC934A8065 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
