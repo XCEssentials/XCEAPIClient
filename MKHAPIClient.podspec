@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
-  s.name                      = 'MKHCustomAPI'
-  s.version                   = '1.0.2'
-  s.summary                   = 'Tiny extension for NSURLSession that enables synchronous task execution written in Swift.'
+  s.name                      = 'MKHAPIClient'
+  s.version                   = '2.0.0'
+  s.summary                   = 'HTTP-based API client for Cocoa and Cocoa Touch.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
   s.license                   = { :type => 'MIT', :file => 'LICENSE' }
   s.author                    = { 'Maxim Khatskevich' => 'maxim@khatskevi.ch' }

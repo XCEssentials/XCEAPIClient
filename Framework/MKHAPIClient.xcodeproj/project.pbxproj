@@ -7,22 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9441AFBD1CA3920400A7D593 /* MKHCustomAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3FD3508F01A859E672E5DC34 /* Pods_MKHAPIClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7256EE99DCDED5CB186FE2E2 /* Pods_MKHAPIClient.framework */; };
+		9441AFBD1CA3920400A7D593 /* MKHAPIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 9441AFBC1CA3920400A7D593 /* MKHAPIClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9441AFD51CA392E200A7D593 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD41CA392E200A7D593 /* Main.swift */; };
 		9441AFD71CA3A2FC00A7D593 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */; };
-		E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1423FADC45A92683E85D0584 /* Pods-MKHAPIClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHAPIClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-MKHAPIClient/Pods-MKHAPIClient.release.xcconfig"; sourceTree = "<group>"; };
 		52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.debug.xcconfig"; sourceTree = "<group>"; };
-		6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MKHCustomAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7256EE99DCDED5CB186FE2E2 /* Pods_MKHAPIClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MKHAPIClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75F9DEB43EAE5DF1714B1192 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MKHCustomAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKHCustomAPI.h; sourceTree = "<group>"; };
+		9441AFB91CA3920400A7D593 /* MKHAPIClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MKHAPIClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9441AFBC1CA3920400A7D593 /* MKHAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKHAPIClient.h; sourceTree = "<group>"; };
 		9441AFBE1CA3920400A7D593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9441AFD41CA392E200A7D593 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
 		B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.release.xcconfig"; sourceTree = "<group>"; };
+		D37A0519C9A249DFABDCB8E2 /* Pods-MKHAPIClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHAPIClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MKHAPIClient/Pods-MKHAPIClient.debug.xcconfig"; sourceTree = "<group>"; };
 		F5E32346E9438EFEB946A32A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -31,7 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */,
+				3FD3508F01A859E672E5DC34 /* Pods_MKHAPIClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +47,8 @@
 				F5E32346E9438EFEB946A32A /* Pods.release.xcconfig */,
 				52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */,
 				B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */,
+				D37A0519C9A249DFABDCB8E2 /* Pods-MKHAPIClient.debug.xcconfig */,
+				1423FADC45A92683E85D0584 /* Pods-MKHAPIClient.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -52,7 +56,7 @@
 		9441AFAF1CA3920400A7D593 = {
 			isa = PBXGroup;
 			children = (
-				9441AFBB1CA3920400A7D593 /* MKHCustomAPI */,
+				9441AFBB1CA3920400A7D593 /* MKHAPIClient */,
 				9441AFBA1CA3920400A7D593 /* Products */,
 				376373576B6C6783053466B5 /* Pods */,
 				EB367F4940462A1CB8A8184B /* Frameworks */,
@@ -62,19 +66,19 @@
 		9441AFBA1CA3920400A7D593 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */,
+				9441AFB91CA3920400A7D593 /* MKHAPIClient.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9441AFBB1CA3920400A7D593 /* MKHCustomAPI */ = {
+		9441AFBB1CA3920400A7D593 /* MKHAPIClient */ = {
 			isa = PBXGroup;
 			children = (
-				9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */,
+				9441AFBC1CA3920400A7D593 /* MKHAPIClient.h */,
 				9441AFBE1CA3920400A7D593 /* Info.plist */,
 				9441AFD31CA3922400A7D593 /* Common */,
 			);
-			path = MKHCustomAPI;
+			path = MKHAPIClient;
 			sourceTree = "<group>";
 		};
 		9441AFD31CA3922400A7D593 /* Common */ = {
@@ -90,7 +94,7 @@
 		EB367F4940462A1CB8A8184B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */,
+				7256EE99DCDED5CB186FE2E2 /* Pods_MKHAPIClient.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -102,16 +106,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9441AFBD1CA3920400A7D593 /* MKHCustomAPI.h in Headers */,
+				9441AFBD1CA3920400A7D593 /* MKHAPIClient.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		9441AFB81CA3920400A7D593 /* MKHCustomAPI */ = {
+		9441AFB81CA3920400A7D593 /* MKHAPIClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPI" */;
+			buildConfigurationList = 9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHAPIClient" */;
 			buildPhases = (
 				79A4E0D52E410523084F7C76 /* [CP] Check Pods Manifest.lock */,
 				9441AFB41CA3920400A7D593 /* Sources */,
@@ -124,9 +128,9 @@
 			);
 			dependencies = (
 			);
-			name = MKHCustomAPI;
+			name = MKHAPIClient;
 			productName = MKHCustomAPI;
-			productReference = 9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */;
+			productReference = 9441AFB91CA3920400A7D593 /* MKHAPIClient.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -144,7 +148,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9441AFB31CA3920400A7D593 /* Build configuration list for PBXProject "MKHCustomAPI" */;
+			buildConfigurationList = 9441AFB31CA3920400A7D593 /* Build configuration list for PBXProject "MKHAPIClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -156,7 +160,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9441AFB81CA3920400A7D593 /* MKHCustomAPI */,
+				9441AFB81CA3920400A7D593 /* MKHAPIClient */,
 			);
 		};
 /* End PBXProject section */
@@ -199,7 +203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MKHAPIClient/Pods-MKHAPIClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -310,18 +314,18 @@
 		};
 		9441AFCE1CA3920400A7D593 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */;
+			baseConfigurationReference = D37A0519C9A249DFABDCB8E2 /* Pods-MKHAPIClient.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MKHCustomAPI/Info.plist;
+				INFOPLIST_FILE = MKHAPIClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHCustomAPI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHAPIClient;
+				PRODUCT_NAME = "${TARGET_NAME}";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -329,18 +333,18 @@
 		};
 		9441AFCF1CA3920400A7D593 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */;
+			baseConfigurationReference = 1423FADC45A92683E85D0584 /* Pods-MKHAPIClient.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MKHCustomAPI/Info.plist;
+				INFOPLIST_FILE = MKHAPIClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHCustomAPI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = khatskevich.maxim.MKHAPIClient;
+				PRODUCT_NAME = "${TARGET_NAME}";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -348,7 +352,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9441AFB31CA3920400A7D593 /* Build configuration list for PBXProject "MKHCustomAPI" */ = {
+		9441AFB31CA3920400A7D593 /* Build configuration list for PBXProject "MKHAPIClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9441AFCB1CA3920400A7D593 /* Debug */,
@@ -357,7 +361,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPI" */ = {
+		9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHAPIClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9441AFCE1CA3920400A7D593 /* Debug */,

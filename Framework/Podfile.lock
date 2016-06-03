@@ -10,12 +10,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MKHSyncSession:
-    :commit: 1d40fd8aa983e52727b0f2c76f930917709059d5
+    :commit: c09a17f3a238f04283bcd42fcba41bde24fe5027
     :git: https://github.com/maximkhatskevich/MKHSyncSession.git
 
 SPEC CHECKSUMS:
   MKHSyncSession: 52631ae816f27af4106340909fa762abe6bd7b65
 
-PODFILE CHECKSUM: 6698edfa37faf9ebd19a752347e043d5b95599c2
+PODFILE CHECKSUM: e8b97426915e0dec5896d6c75a18df1a4dae9079
 
 COCOAPODS: 1.0.1

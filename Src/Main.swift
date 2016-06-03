@@ -1,6 +1,6 @@
 //
 //  Main.swift
-//  MKHCustomAPI
+//  MKHAPIClient
 //
 //  Created by Maxim Khatskevich on 3/23/16.
 //  Copyright © 2016 Maxim Khatskevich. All rights reserved.
@@ -34,15 +34,15 @@ public
 enum HTTPMethod: String
 {
     case
-    GET,
-    POST,
-    PUT,
-    PATCH,
-    DELETE,
-    HEAD,
-    TRACE,
-    CONNECT,
-    OPTIONS
+        GET,
+        POST,
+        PUT,
+        PATCH,
+        DELETE,
+        HEAD,
+        TRACE,
+        CONNECT,
+        OPTIONS
 }
 
 //===
