@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		011751B3D4AD9735349867C6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF41A9979A4CFCFF60FAB4EB /* Pods.framework */; };
 		9441AFBD1CA3920400A7D593 /* MKHCustomAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9441AFC41CA3920400A7D593 /* MKHCustomAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */; };
 		9441AFC91CA3920400A7D593 /* MKHCustomAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFC81CA3920400A7D593 /* MKHCustomAPITests.swift */; };
 		9441AFD51CA392E200A7D593 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD41CA392E200A7D593 /* Main.swift */; };
 		9441AFD71CA3A2FC00A7D593 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */; };
+		E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +26,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.debug.xcconfig"; sourceTree = "<group>"; };
+		6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MKHCustomAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75F9DEB43EAE5DF1714B1192 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9441AFB91CA3920400A7D593 /* MKHCustomAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MKHCustomAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9441AFBC1CA3920400A7D593 /* MKHCustomAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKHCustomAPI.h; sourceTree = "<group>"; };
@@ -35,7 +37,7 @@
 		9441AFCA1CA3920400A7D593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9441AFD41CA392E200A7D593 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		9441AFD61CA3A2FC00A7D593 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
-		BF41A9979A4CFCFF60FAB4EB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHCustomAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI.release.xcconfig"; sourceTree = "<group>"; };
 		F5E32346E9438EFEB946A32A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				011751B3D4AD9735349867C6 /* Pods.framework in Frameworks */,
+				E718176CB7C611129FD103A1 /* Pods_MKHCustomAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +66,8 @@
 			children = (
 				75F9DEB43EAE5DF1714B1192 /* Pods.debug.xcconfig */,
 				F5E32346E9438EFEB946A32A /* Pods.release.xcconfig */,
+				52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */,
+				B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -120,7 +124,7 @@
 		EB367F4940462A1CB8A8184B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF41A9979A4CFCFF60FAB4EB /* Pods.framework */,
+				6BEFDB12B527DB8C6B12CA2F /* Pods_MKHCustomAPI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,12 +147,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9441AFCD1CA3920400A7D593 /* Build configuration list for PBXNativeTarget "MKHCustomAPI" */;
 			buildPhases = (
-				B946F46EC1FA4E38059930C7 /* Check Pods Manifest.lock */,
+				79A4E0D52E410523084F7C76 /* 📦 Check Pods Manifest.lock */,
 				9441AFB41CA3920400A7D593 /* Sources */,
 				9441AFB51CA3920400A7D593 /* Frameworks */,
 				9441AFB61CA3920400A7D593 /* Headers */,
 				9441AFB71CA3920400A7D593 /* Resources */,
-				F923213378C66EE010E82754 /* Copy Pods Resources */,
+				96F903E162E064FC934A8065 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,14 +235,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B946F46EC1FA4E38059930C7 /* Check Pods Manifest.lock */ = {
+		79A4E0D52E410523084F7C76 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,19 +250,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		F923213378C66EE010E82754 /* Copy Pods Resources */ = {
+		96F903E162E064FC934A8065 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MKHCustomAPI/Pods-MKHCustomAPI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -385,7 +389,7 @@
 		};
 		9441AFCE1CA3920400A7D593 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 75F9DEB43EAE5DF1714B1192 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 52DB679835E63A839ECBC0E9 /* Pods-MKHCustomAPI.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -404,7 +408,7 @@
 		};
 		9441AFCF1CA3920400A7D593 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5E32346E9438EFEB946A32A /* Pods.release.xcconfig */;
+			baseConfigurationReference = B5973DCC8F448DFBD94A92B6 /* Pods-MKHCustomAPI.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;

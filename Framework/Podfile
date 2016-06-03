@@ -3,8 +3,12 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 workspace 'MKHCustomAPI'
-xcodeproj 'MKHCustomAPI'
+project 'MKHCustomAPI'
 
 use_frameworks!
 
-pod 'MKHSyncSession', :git => 'https://github.com/maximkhatskevich/MKHSyncSession.git'
+target 'MKHCustomAPI' do
+
+	pod 'MKHSyncSession', :git => 'https://github.com/maximkhatskevich/MKHSyncSession.git'
+
+end

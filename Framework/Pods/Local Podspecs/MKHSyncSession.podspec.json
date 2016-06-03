@@ -1,6 +1,6 @@
 {
   "name": "MKHSyncSession",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "summary": "Tiny extension for NSURLSession that enables synchronous task execution written in Swift.",
   "homepage": "https://github.com/maximkhatskevich/#{s.name}",
   "license": {

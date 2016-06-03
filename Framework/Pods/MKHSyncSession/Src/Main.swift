@@ -12,10 +12,11 @@
 
 public
 typealias DataTaskResult =
-    (data: NSData?, response: NSURLResponse?, error: NSError?)
+    (data: NSData?, response: NSHTTPURLResponse?, error: NSError?)
 
 public
-typealias UploadTaskResult = DataTaskResult
+typealias UploadTaskResult =
+    (data: NSData?, response: NSURLResponse?, error: NSError?)
 
 public
 typealias DownloadTaskResult =
@@ -42,7 +43,7 @@ extension NSURLSession
             request,
             completionHandler: { (data, response, error) in
         
-                result = (data, response, error)
+                result = (data, response as? NSHTTPURLResponse, error)
                 
                 //===
                 
@@ -188,33 +189,4 @@ extension NSURLSession
         
         return result
     }
-}
-
-extension NSURLSession {
-    /*
-     * data task convenience methods.  These methods create tasks that
-     * bypass the normal delegate calls for response and data delivery,
-     * and provide a simple cancelable asynchronous interface to receiving
-     * data.  Errors will be returned in the NSURLErrorDomain,
-     * see <Foundation/NSURLError.h>.  The delegate, if any, will still be
-     * called for authentication challenges.
-     */
-//    public func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask
-//    public func dataTaskWithURL(url: NSURL, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask
-//    
-//    /*
-//     * upload convenience method.
-//     */
-//    public func uploadTaskWithRequest(request: NSURLRequest, fromFile fileURL: NSURL, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionUploadTask
-//    public func uploadTaskWithRequest(request: NSURLRequest, fromData bodyData: NSData?, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionUploadTask
-//    
-//    /*
-//     * download task convenience methods.  When a download successfully
-//     * completes, the NSURL will point to a file that must be read or
-//     * copied during the invocation of the completion routine.  The file
-//     * will be removed automatically.
-//     */
-//    public func downloadTaskWithRequest(request: NSURLRequest, completionHandler: (NSURL?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDownloadTask
-//    public func downloadTaskWithURL(url: NSURL, completionHandler: (NSURL?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDownloadTask
-//    public func downloadTaskWithResumeData(resumeData: NSData, completionHandler: (NSURL?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDownloadTask
 }
