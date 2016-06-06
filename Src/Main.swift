@@ -245,7 +245,7 @@ struct APIClient: APIClientCore
         onConfigureRequest: OnConfigureRequestBlock? = nil,
         onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
         onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil,
-        sessionConfig: NSURLSessionConfiguration? = NSURLSessionConfiguration.defaultSessionConfiguration(),
+        sessionConfig: NSURLSessionConfiguration? = nil,
         sessionDelegate: NSURLSessionDelegate? = nil,
         sessionDelegateQueue: NSOperationQueue? = nil)
     {
@@ -253,18 +253,26 @@ struct APIClient: APIClientCore
         
         //===
         
+        // even if a 'nil' has been passed - we need a non-nil value,
+        // so we will use defaul configuration
+        
+        let config = (sessionConfig ?? NSURLSessionConfiguration.defaultSessionConfiguration())
+        
+        //===
+        
         if
+            
             let sessionDelegate = sessionDelegate,
             let sessionDelegateQueue = sessionDelegateQueue
         {
             session = NSURLSession(
-                configuration: sessionConfig!,
+                configuration: config,
                 delegate: sessionDelegate,
                 delegateQueue: sessionDelegateQueue)
         }
         else
         {
-            session = NSURLSession(configuration: sessionConfig!)
+            session = NSURLSession(configuration: config)
         }
         
         //===
