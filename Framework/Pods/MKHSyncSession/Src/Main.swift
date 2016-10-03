@@ -12,48 +12,48 @@
 
 public
 typealias DataTaskResult =
-    (data: NSData?, response: NSHTTPURLResponse?, error: NSError?)
+    (data: Data?, response: HTTPURLResponse?, error: NSError?)
 
 public
 typealias UploadTaskResult =
-    (data: NSData?, response: NSURLResponse?, error: NSError?)
+    (data: Data?, response: URLResponse?, error: NSError?)
 
 public
 typealias DownloadTaskResult =
-    (tempFile: NSURL?, response: NSURLResponse?, error: NSError?)
+    (tempFile: URL?, response: URLResponse?, error: NSError?)
 
 //===
 
 public
-extension NSURLSession
+extension URLSession
 {
     /// Return data from synchronous URL request
     public
-    func dataTaskSync(request: NSURLRequest) -> DataTaskResult
+    func dataTaskSync(_ request: URLRequest) -> DataTaskResult
     {
         var result: DataTaskResult
         
         //===
         
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
         //===
         
-        self.dataTaskWithRequest(
-            request,
+        self.dataTask(
+            with: request,
             completionHandler: { (data, response, error) in
         
-                result = (data, response as? NSHTTPURLResponse, error)
+                result = (data, response as? HTTPURLResponse, error as NSError?)
                 
                 //===
                 
-                dispatch_semaphore_signal(semaphore);
+                semaphore.signal();
             })
             .resume()
         
         //===
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         //===
         
@@ -61,32 +61,32 @@ extension NSURLSession
     }
     
     public
-    func uploadTaskSync(request: NSURLRequest, fromFile fileURL: NSURL) -> UploadTaskResult
+    func uploadTaskSync(_ request: URLRequest, fromFile fileURL: URL) -> UploadTaskResult
     {
         var result: UploadTaskResult
         
         //===
         
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
         //===
         
-        self.uploadTaskWithRequest(
-            request,
+        self.uploadTask(
+            with: request,
             fromFile: fileURL,
             completionHandler: { (data, response, error) in
                 
-                result = (data, response, error)
+                result = (data, response, error as NSError?)
                 
                 //===
                 
-                dispatch_semaphore_signal(semaphore);
+                semaphore.signal();
             })
             .resume()
         
         //===
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         //===
         
@@ -94,32 +94,32 @@ extension NSURLSession
     }
     
     public
-    func uploadTaskSync(request: NSURLRequest, fromData bodyData: NSData?) -> UploadTaskResult
+    func uploadTaskSync(_ request: URLRequest, fromData bodyData: Data?) -> UploadTaskResult
     {
         var result: UploadTaskResult
         
         //===
         
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
         //===
         
-        self.uploadTaskWithRequest(
-            request,
-            fromData: bodyData,
+        self.uploadTask(
+            with: request,
+            from: bodyData,
             completionHandler: { (data, response, error) in
                 
-                result = (data, response, error)
+                result = (data, response, error as NSError?)
                 
                 //===
                 
-                dispatch_semaphore_signal(semaphore);
+                semaphore.signal();
             })
             .resume()
         
         //===
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         //===
         
@@ -127,31 +127,31 @@ extension NSURLSession
     }
     
     public
-    func downloadTaskSync(request: NSURLRequest) -> DownloadTaskResult
+    func downloadTaskSync(_ request: URLRequest) -> DownloadTaskResult
     {
         var result: DownloadTaskResult
         
         //===
         
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
         //===
         
-        self.downloadTaskWithRequest(
-            request,
+        self.downloadTask(
+            with: request,
             completionHandler: { (tempFile, response, error) in
                 
-                result = (tempFile, response, error)
+                result = (tempFile, response, error as NSError?)
                 
                 //===
                 
-                dispatch_semaphore_signal(semaphore);
+                semaphore.signal();
             })
             .resume()
         
         //===
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         //===
         
@@ -159,31 +159,31 @@ extension NSURLSession
     }
     
     public
-    func downloadTaskSync(resumeData: NSData) -> DownloadTaskResult
+    func downloadTaskSync(_ resumeData: Data) -> DownloadTaskResult
     {
         var result: DownloadTaskResult
         
         //===
         
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
         //===
         
-        self.downloadTaskWithResumeData(
-            resumeData,
+        self.downloadTask(
+            withResumeData: resumeData,
             completionHandler: { (tempFile, response, error) in
                 
-                result = (tempFile, response, error)
+                result = (tempFile, response, error as NSError?)
                 
                 //===
                 
-                dispatch_semaphore_signal(semaphore);
+                semaphore.signal();
             })
             .resume()
         
         //===
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         //===
         

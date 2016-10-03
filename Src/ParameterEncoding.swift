@@ -33,10 +33,10 @@
 */
 public enum ParameterEncoding
 {
-    case URL
-    case URLEncodedInURL
-    case JSON
-    case PropertyList(NSPropertyListFormat, NSPropertyListWriteOptions)
+    case url
+    case urlEncodedInURL
+    case json
+    case propertyList(PropertyListSerialization.PropertyListFormat, PropertyListSerialization.WriteOptions)
 
     /**
         Creates a URL request by encoding parameters and applying them onto an existing request.
@@ -48,7 +48,7 @@ public enum ParameterEncoding
                    if any.
     */
     public func encode(
-        request: NSMutableURLRequest,
+        _ request: NSMutableURLRequest,
         parameters: [String: AnyObject]?)
         -> (request: NSMutableURLRequest, error: NSError?)
     {
@@ -63,13 +63,13 @@ public enum ParameterEncoding
         
         switch self
         {
-            case .URL, .URLEncodedInURL:
+            case .url, .urlEncodedInURL:
                 return encodeURL(request, parameters: parameters)
             
-            case .JSON:
+            case .json:
                 return encodeJSON(request, parameters: parameters)
             
-            case .PropertyList(let format, let options):
+            case .propertyList(let format, let options):
                 return encodePLIST(
                     request,
                     parameters: parameters,
@@ -78,30 +78,30 @@ public enum ParameterEncoding
         }
     }
     
-    private
+    fileprivate
     func encodeURL(
-        request: NSMutableURLRequest,
+        _ request: NSMutableURLRequest,
         parameters: [String: AnyObject])
         -> (NSMutableURLRequest, NSError?)
     {
-        func query(parameters: [String: AnyObject]) -> String
+        func query(_ parameters: [String: AnyObject]) -> String
         {
             var components: [(String, String)] = []
             
-            for key in parameters.keys.sort(<)
+            for key in parameters.keys.sorted(by: <)
             {
                 let value = parameters[key]!
                 components += queryComponents(key, value)
             }
             
-            return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
+            return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
         }
         
-        func encodesParametersInURL(method: HTTPMethod) -> Bool
+        func encodesParametersInURL(_ method: HTTPMethod) -> Bool
         {
             switch self
             {
-                case .URLEncodedInURL:
+                case .urlEncodedInURL:
                     return true
                 default:
                     break
@@ -119,29 +119,29 @@ public enum ParameterEncoding
         //===
         
         if
-            let method = HTTPMethod(rawValue: request.HTTPMethod)
-            where encodesParametersInURL(method)
+            let method = HTTPMethod(rawValue: request.httpMethod)
+            , encodesParametersInURL(method)
         {
             if
-                let URLComponents = NSURLComponents(URL: request.URL!, resolvingAgainstBaseURL: false) where !parameters.isEmpty
+                var URLComponents = URLComponents(url: request.url!, resolvingAgainstBaseURL: false) , !parameters.isEmpty
             {
                 let percentEncodedQuery =
                     (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(parameters)
                 URLComponents.percentEncodedQuery = percentEncodedQuery
-                request.URL = URLComponents.URL
+                request.url = URLComponents.url
             }
         }
         else
         {
-            if request.valueForHTTPHeaderField("Content-Type") == nil
+            if request.value(forHTTPHeaderField: "Content-Type") == nil
             {
                 request.setValue(
                     "application/x-www-form-urlencoded; charset=utf-8",
                     forHTTPHeaderField: "Content-Type")
             }
             
-            request.HTTPBody = query(parameters).dataUsingEncoding(
-                NSUTF8StringEncoding,
+            request.httpBody = query(parameters).data(
+                using: String.Encoding.utf8,
                 allowLossyConversion: false)
         }
         
@@ -150,9 +150,9 @@ public enum ParameterEncoding
         return (request, nil)
     }
     
-    private
+    fileprivate
     func encodeJSON(
-        request: NSMutableURLRequest,
+        _ request: NSMutableURLRequest,
         parameters: [String: AnyObject])
         -> (NSMutableURLRequest, NSError?)
     {
@@ -162,15 +162,15 @@ public enum ParameterEncoding
         
         do
         {
-            let options = NSJSONWritingOptions()
-            let data = try NSJSONSerialization.dataWithJSONObject(parameters, options: options)
+            let options = JSONSerialization.WritingOptions()
+            let data = try JSONSerialization.data(withJSONObject: parameters, options: options)
             
-            if request.valueForHTTPHeaderField("Content-Type") == nil
+            if request.value(forHTTPHeaderField: "Content-Type") == nil
             {
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             }
             
-            request.HTTPBody = data
+            request.httpBody = data
         }
         catch
         {
@@ -182,12 +182,12 @@ public enum ParameterEncoding
         return (request, encodingError)
     }
     
-    private
+    fileprivate
     func encodePLIST(
-        request: NSMutableURLRequest,
+        _ request: NSMutableURLRequest,
         parameters: [String: AnyObject],
-        format: NSPropertyListFormat,
-        options: NSPropertyListWriteOptions)
+        format: PropertyListSerialization.PropertyListFormat,
+        options: PropertyListSerialization.WriteOptions)
         -> (NSMutableURLRequest, NSError?)
     {
         var encodingError: NSError? = nil
@@ -197,17 +197,17 @@ public enum ParameterEncoding
         do
         {
             let data = try
-                NSPropertyListSerialization.dataWithPropertyList(
-                    parameters,
+                PropertyListSerialization.data(
+                    fromPropertyList: parameters,
                     format: format,
                     options: options)
             
-            if request.valueForHTTPHeaderField("Content-Type") == nil
+            if request.value(forHTTPHeaderField: "Content-Type") == nil
             {
                 request.setValue("application/x-plist", forHTTPHeaderField: "Content-Type")
             }
             
-            request.HTTPBody = data
+            request.httpBody = data
         }
         catch
         {
@@ -227,7 +227,7 @@ public enum ParameterEncoding
 
         - returns: The percent-escaped, URL encoded query string components.
     */
-    public func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {
+    public func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)] {
         var components: [(String, String)] = []
 
         if
@@ -271,12 +271,12 @@ public enum ParameterEncoding
 
         - returns: The percent-escaped string.
     */
-    public func escape(string: String) -> String {
+    public func escape(_ string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
 
-        let allowedCharacterSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-        allowedCharacterSet.removeCharactersInString(generalDelimitersToEncode + subDelimitersToEncode)
+        let allowedCharacterSet = (CharacterSet.urlQueryAllowed as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
+        allowedCharacterSet.removeCharacters(in: generalDelimitersToEncode + subDelimitersToEncode)
 
         var escaped = ""
 
@@ -294,7 +294,7 @@ public enum ParameterEncoding
         if #available(iOS 8.3, OSX 10.10, *)
         {
             escaped =
-                string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? string
+                string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
         }
         else
         {
@@ -304,14 +304,16 @@ public enum ParameterEncoding
             while index != string.endIndex
             {
                 let startIndex = index
-                let endIndex = index.advancedBy(batchSize, limit: string.endIndex)
-                let range = startIndex ..< endIndex
+                let endIndex = string.index(index, offsetBy: batchSize, limitedBy: string.endIndex)
+                let range = startIndex ..< endIndex!
 
-                let substring = string.substringWithRange(range)
+                let substring = string.substring(with: range)
 
-                escaped += substring.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? substring
+                escaped +=
+                    substring
+                        .addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? substring
 
-                index = endIndex
+                index = endIndex!
             }
         }
 

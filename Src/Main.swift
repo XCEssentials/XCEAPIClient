@@ -59,12 +59,12 @@ public
 typealias OnDidPrepareRequestBlock = (NSMutableURLRequest) -> NSMutableURLRequest
 
 public
-typealias OnDidReceiveDataResponseBlock = (NSURLRequest, DataTaskResult) -> Void
+typealias OnDidReceiveDataResponseBlock = (URLRequest, DataTaskResult) -> Void
 
 public
 protocol APIClientCore
 {
-    var session: NSURLSession { get }
+    var session: URLSession { get }
     
     var basePath: String { get }
     
@@ -79,9 +79,9 @@ protocol APIClientCore
         onConfigureRequest: OnConfigureRequestBlock?,
         onDidPrepareRequest: OnDidPrepareRequestBlock?,
         onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?,
-        sessionConfig: NSURLSessionConfiguration?,
-        sessionDelegate: NSURLSessionDelegate?,
-        sessionDelegateQueue: NSOperationQueue?)
+        sessionConfig: URLSessionConfiguration?,
+        sessionDelegate: URLSessionDelegate?,
+        sessionDelegateQueue: OperationQueue?)
 }
 
 //===
@@ -89,19 +89,19 @@ protocol APIClientCore
 public
 extension APIClientCore // common functionality
 {
-    private
+    fileprivate
     func prepareRequest(
-        method: HTTPMethod,
+        _ method: HTTPMethod,
         relativePath: String,
-        parameters: Parameters? = nil) -> NSURLRequest
+        parameters: Parameters? = nil) -> URLRequest
     {
         var result =
-            NSMutableURLRequest(URL:
-                NSURL(string: basePath + relativePath)!)
+            NSMutableURLRequest(url:
+                URL(string: basePath + relativePath)!)
         
         //===
         
-        result.HTTPMethod = method.rawValue
+        result.httpMethod = method.rawValue
         
         result = onConfigureRequest(result, parameters)
         
@@ -114,11 +114,11 @@ extension APIClientCore // common functionality
         
         //===
         
-        return result.copy() as! NSURLRequest
+        return result.copy() as! URLRequest
     }
     
-    private
-    func dataTask(request: NSURLRequest) -> DataTaskResult
+    fileprivate
+    func dataTask(_ request: URLRequest) -> DataTaskResult
     {
         let result = session.dataTaskSync(request)
         
@@ -137,7 +137,7 @@ extension APIClientCore // common functionality
     //=== Public members
     
     public
-    func get(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func get(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -145,7 +145,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func post(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func post(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -153,7 +153,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func put(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func put(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -161,7 +161,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func patch(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func patch(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -169,7 +169,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func delete(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func delete(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -177,7 +177,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func head(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func head(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -185,7 +185,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func trace(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func trace(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -193,7 +193,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func connect(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func connect(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -201,7 +201,7 @@ extension APIClientCore // common functionality
     }
     
     public
-    func options(relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
+    func options(_ relativePath: String, parameters: Parameters? = nil) -> DataTaskResult
     {
         return
             dataTask(
@@ -217,7 +217,7 @@ struct APIClient: APIClientCore
     //=== APIClient conformance - Public read-only members
     
     public
-    let session: NSURLSession
+    let session: URLSession
     
     public
     let basePath: String
@@ -227,7 +227,7 @@ struct APIClient: APIClientCore
     public
     let onConfigureRequestDefault: OnConfigureRequestBlock =
     {
-        return ParameterEncoding.URL.encode($0, parameters: $1).request
+        return ParameterEncoding.url.encode($0, parameters: $1).request
     }
     
     public
@@ -245,9 +245,9 @@ struct APIClient: APIClientCore
         onConfigureRequest: OnConfigureRequestBlock? = nil,
         onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
         onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil,
-        sessionConfig: NSURLSessionConfiguration? = nil,
-        sessionDelegate: NSURLSessionDelegate? = nil,
-        sessionDelegateQueue: NSOperationQueue? = nil)
+        sessionConfig: URLSessionConfiguration? = nil,
+        sessionDelegate: URLSessionDelegate? = nil,
+        sessionDelegateQueue: OperationQueue? = nil)
     {
         self.basePath = basePath
         
@@ -256,23 +256,22 @@ struct APIClient: APIClientCore
         // even if a 'nil' has been passed - we need a non-nil value,
         // so we will use defaul configuration
         
-        let config = (sessionConfig ?? NSURLSessionConfiguration.defaultSessionConfiguration())
+        let config = sessionConfig ?? URLSessionConfiguration.default
         
         //===
         
         if
-            
             let sessionDelegate = sessionDelegate,
             let sessionDelegateQueue = sessionDelegateQueue
         {
-            session = NSURLSession(
+            session = URLSession(
                 configuration: config,
                 delegate: sessionDelegate,
                 delegateQueue: sessionDelegateQueue)
         }
         else
         {
-            session = NSURLSession(configuration: config)
+            session = URLSession(configuration: config)
         }
         
         //===
