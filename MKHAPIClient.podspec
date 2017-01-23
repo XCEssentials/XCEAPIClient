@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                      = 'MKHAPIClient'
-  s.version                   = '3.0.1'
+  s.version                   = '3.0.2'
   s.summary                   = 'HTTP-based API client for Cocoa and Cocoa Touch.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
   s.license                   = { :type => 'MIT', :file => 'LICENSE' }
@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.requires_arc              = true
   s.social_media_url          = 'http://www.linkedin.com/in/maximkhatskevich'
 
-  s.dependency 'MKHSyncSession', '~> 1.0'
+  s.dependency 'MKHSyncSession', '~> 2.0'
 
 end
