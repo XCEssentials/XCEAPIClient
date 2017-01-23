@@ -53,7 +53,7 @@ enum ParameterEncoding
     public
     func encode(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject]?
+        parameters: [String: Any]?
         ) -> (request: NSMutableURLRequest, error: NSError?)
     {
         guard
@@ -85,10 +85,10 @@ enum ParameterEncoding
     fileprivate
     func encodeURL(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject]
+        parameters: [String: Any]
         ) -> (NSMutableURLRequest, NSError?)
     {
-        func query(_ parameters: [String: AnyObject]) -> String
+        func query(_ parameters: [String: Any]) -> String
         {
             var components: [(String, String)] = []
             
@@ -159,7 +159,7 @@ enum ParameterEncoding
     fileprivate
     func encodeJSON(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject]
+        parameters: [String: Any]
         ) -> (NSMutableURLRequest, NSError?)
     {
         var encodingError: NSError? = nil
@@ -191,7 +191,7 @@ enum ParameterEncoding
     fileprivate
     func encodePLIST(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject],
+        parameters: [String: Any],
         format: PropertyListSerialization.PropertyListFormat,
         options: PropertyListSerialization.WriteOptions
         ) -> (NSMutableURLRequest, NSError?)
@@ -234,12 +234,12 @@ enum ParameterEncoding
         - returns: The percent-escaped, URL encoded query string components.
     */
     public
-    func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)]
+    func queryComponents(_ key: String, _ value: Any) -> [(String, String)]
     {
         var components: [(String, String)] = []
 
         if
-            let dictionary = value as? [String: AnyObject]
+            let dictionary = value as? [String: Any]
         {
             for (nestedKey, value) in dictionary
             {
@@ -248,7 +248,7 @@ enum ParameterEncoding
         }
         else
         if
-            let array = value as? [AnyObject]
+            let array = value as? [Any]
         {
             for value in array
             {

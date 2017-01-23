@@ -48,7 +48,7 @@ enum HTTPMethod: String
 //===
 
 public
-typealias Parameters = [String: AnyObject]
+typealias Parameters = [String: Any]
 
 //===
 
