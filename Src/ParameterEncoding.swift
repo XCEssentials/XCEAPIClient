@@ -6,6 +6,8 @@
 //
 //  Based on: https://github.com/Alamofire/Alamofire/blob/master/Source/ParameterEncoding.swift
 
+import Foundation
+
 // MARK: ParameterEncoding
 
 /**
@@ -31,7 +33,8 @@
                          request. The `Content-Type` HTTP header field of an encoded request is set to
                          `application/x-plist`.
 */
-public enum ParameterEncoding
+public
+enum ParameterEncoding
 {
     case url
     case urlEncodedInURL
@@ -47,10 +50,11 @@ public enum ParameterEncoding
         - returns: A tuple containing the constructed request and the error that occurred during parameter encoding, 
                    if any.
     */
-    public func encode(
+    public
+    func encode(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject]?)
-        -> (request: NSMutableURLRequest, error: NSError?)
+        parameters: [String: AnyObject]?
+        ) -> (request: NSMutableURLRequest, error: NSError?)
     {
         guard
             let parameters = parameters
@@ -81,8 +85,8 @@ public enum ParameterEncoding
     fileprivate
     func encodeURL(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject])
-        -> (NSMutableURLRequest, NSError?)
+        parameters: [String: AnyObject]
+        ) -> (NSMutableURLRequest, NSError?)
     {
         func query(_ parameters: [String: AnyObject]) -> String
         {
@@ -119,11 +123,13 @@ public enum ParameterEncoding
         //===
         
         if
-            let method = HTTPMethod(rawValue: request.httpMethod)
-            , encodesParametersInURL(method)
+            let method = HTTPMethod(rawValue: request.httpMethod),
+            encodesParametersInURL(method)
         {
             if
-                var URLComponents = URLComponents(url: request.url!, resolvingAgainstBaseURL: false) , !parameters.isEmpty
+                var URLComponents =
+                    URLComponents(url: request.url!, resolvingAgainstBaseURL: false),
+                !parameters.isEmpty
             {
                 let percentEncodedQuery =
                     (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(parameters)
@@ -153,8 +159,8 @@ public enum ParameterEncoding
     fileprivate
     func encodeJSON(
         _ request: NSMutableURLRequest,
-        parameters: [String: AnyObject])
-        -> (NSMutableURLRequest, NSError?)
+        parameters: [String: AnyObject]
+        ) -> (NSMutableURLRequest, NSError?)
     {
         var encodingError: NSError? = nil
         
@@ -187,8 +193,8 @@ public enum ParameterEncoding
         _ request: NSMutableURLRequest,
         parameters: [String: AnyObject],
         format: PropertyListSerialization.PropertyListFormat,
-        options: PropertyListSerialization.WriteOptions)
-        -> (NSMutableURLRequest, NSError?)
+        options: PropertyListSerialization.WriteOptions
+        ) -> (NSMutableURLRequest, NSError?)
     {
         var encodingError: NSError? = nil
         
@@ -227,7 +233,9 @@ public enum ParameterEncoding
 
         - returns: The percent-escaped, URL encoded query string components.
     */
-    public func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)] {
+    public
+    func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)]
+    {
         var components: [(String, String)] = []
 
         if
@@ -271,7 +279,9 @@ public enum ParameterEncoding
 
         - returns: The percent-escaped string.
     */
-    public func escape(_ string: String) -> String {
+    public
+    func escape(_ string: String) -> String
+    {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
 
