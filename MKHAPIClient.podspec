@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                      = 'MKHAPIClient'
-  s.version                   = '3.0.3'
+  s.version                   = '3.1.0'
   s.summary                   = 'HTTP-based API client for Cocoa and Cocoa Touch.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
   s.license                   = { :type => 'MIT', :file => 'LICENSE' }
