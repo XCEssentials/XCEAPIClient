@@ -15,7 +15,14 @@ protocol APIClientError: Error {}
 
 //===
 
-struct URLCreationFailed: APIClientError
+struct InvalidBasePath: APIClientError
+{
+    let basePath: String
+}
+
+//===
+
+struct InvalidRelativePath: APIClientError
 {
     let basePath: String
     let relativePath: String
