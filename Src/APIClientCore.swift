@@ -30,5 +30,6 @@ protocol APIClientCore
         onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?,
         sessionConfig: URLSessionConfiguration?,
         sessionDelegate: URLSessionDelegate?,
-        sessionDelegateQueue: OperationQueue?)
+        sessionDelegateQueue: OperationQueue?
+        ) throws
 }

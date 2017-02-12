@@ -21,11 +21,13 @@ extension APIClientCore
         ) throws -> URLRequest
     {
         guard
-            let url = URL(string: basePath + relativePath)
+            let rPath = relativePath
+                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+            let url = URL(string: basePath + rPath)
         else
         {
             throw
-                URLCreationFailed(
+                InvalidRelativePath(
                     basePath: basePath,
                     relativePath: relativePath)
         }

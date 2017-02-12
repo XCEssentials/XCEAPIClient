@@ -48,9 +48,20 @@ struct APIClient: APIClientCore
         onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil,
         sessionConfig: URLSessionConfiguration? = nil,
         sessionDelegate: URLSessionDelegate? = nil,
-        sessionDelegateQueue: OperationQueue? = nil)
+        sessionDelegateQueue: OperationQueue? = nil
+        ) throws
     {
-        self.basePath = basePath
+        if
+            let basePath = basePath
+                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+        {
+            self.basePath = basePath
+        }
+        else
+        {
+            throw
+                InvalidBasePath(basePath: basePath)
+        }
         
         //===
         
