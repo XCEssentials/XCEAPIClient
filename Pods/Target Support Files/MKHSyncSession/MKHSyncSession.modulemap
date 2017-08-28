@@ -1,6 +1,0 @@
-framework module MKHSyncSession {
-  umbrella header "MKHSyncSession-umbrella.h"
-
-  export *
-  module * { export * }
-}
