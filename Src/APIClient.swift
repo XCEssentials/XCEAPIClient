@@ -7,7 +7,7 @@ import MKHSyncSession
 public
 struct APIClient: APIClientCore
 {
-    //=== APIClient conformance - Public read-only members
+    // MARK: - APIClientCore conformance
     
     public
     let session: URLSession
@@ -15,83 +15,57 @@ struct APIClient: APIClientCore
     public
     let basePath: String
     
-    //=== APIClient conformance - Public members
+    public
+    let onConfigureRequest: OnConfigureRequest
     
     public
-    let onConfigureRequestDefault: OnConfigureRequestBlock =
-        {
-            return ParameterEncoding.url.encode($0, parameters: $1).request
+    let onDidPrepareRequest: OnDidPrepareRequest?
+    
+    public
+    let onDidReceiveDataResponse: OnDidReceiveDataResponse?
+    
+    // MARK: - Defautls
+    
+    public
+    static
+    let onConfigureRequest: OnConfigureRequest = {
+        
+        try $0 = URLEncoding.default.encode($0, with: $1)
     }
     
-    public
-    let onConfigureRequest: OnConfigureRequestBlock
-    
-    public
-    let onDidPrepareRequest: OnDidPrepareRequestBlock?
-    
-    public
-    let onDidReceiveDataResponse: OnDidReceiveDataResponseBlock?
+    // MARK: - Initializers
     
     public
     init(
         basePath: String,
-        onConfigureRequest: OnConfigureRequestBlock? = nil,
-        onDidPrepareRequest: OnDidPrepareRequestBlock? = nil,
-        onDidReceiveDataResponse: OnDidReceiveDataResponseBlock? = nil,
-        sessionConfig: URLSessionConfiguration? = nil,
+        onConfigureRequest: @escaping OnConfigureRequest = APIClient.onConfigureRequest,
+        onDidPrepareRequest: OnDidPrepareRequest? = nil,
+        onDidReceiveDataResponse: OnDidReceiveDataResponse? = nil,
+        sessionConfig: URLSessionConfiguration = .default,
         sessionDelegate: URLSessionDelegate? = nil,
         sessionDelegateQueue: OperationQueue? = nil
         ) throws
     {
-        if
-            let basePath = basePath
-                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-        {
-            self.basePath = basePath
-        }
+        guard
+            let percentEncodedBasePath = basePath.addingPercentEncoding(
+                withAllowedCharacters: .urlPathAllowed
+            )
         else
         {
-            throw
-                InvalidBasePath(basePath: basePath)
+            throw InvalidBasePath(basePath: basePath)
         }
         
         //===
         
-        // even if a 'nil' has been passed - we need a non-nil value,
-        // so we will use defaul configuration
+        self.basePath = percentEncodedBasePath
         
-        let config = sessionConfig ?? URLSessionConfiguration.default
+        self.session = URLSession(
+            configuration: sessionConfig,
+            delegate: sessionDelegate,
+            delegateQueue: sessionDelegateQueue
+        )
         
-        //===
-        
-        if
-            let sessionDelegate = sessionDelegate,
-            let sessionDelegateQueue = sessionDelegateQueue
-        {
-            session = URLSession(
-                configuration: config,
-                delegate: sessionDelegate,
-                delegateQueue: sessionDelegateQueue)
-        }
-        else
-        {
-            session = URLSession(configuration: config)
-        }
-        
-        //===
-        
-        if
-            let onConfigureRequest = onConfigureRequest
-        {
-            self.onConfigureRequest = onConfigureRequest
-        }
-        else
-        {
-            self.onConfigureRequest = onConfigureRequestDefault
-        }
-        
-        //===
-        
+        self.onConfigureRequest = onConfigureRequest
         self.onDidPrepareRequest = onDidPrepareRequest
         self.onDidReceiveDataResponse = onDidReceiveDataResponse
     }

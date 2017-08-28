@@ -10,12 +10,10 @@
 		4CCFF30BD459C6A5417A492F /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1311BF41F319FB13CA5415 /* ParameterEncoding.swift */; };
 		686F112EA48AF7BC99019D44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3BE9C485651AF5497FAFE0 /* Foundation.framework */; };
 		9427ABE11E4FDFCC00071B75 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE01E4FDFCC00071B75 /* Errors.swift */; };
-		9427ABE31E4FE12600071B75 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE21E4FE12600071B75 /* Types.swift */; };
-		9427ABE51E4FE15900071B75 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE41E4FE15900071B75 /* Typealiases.swift */; };
+		9427ABE31E4FE12600071B75 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE21E4FE12600071B75 /* Helpers.swift */; };
 		9427ABE71E4FE17C00071B75 /* APIClientCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE61E4FE17C00071B75 /* APIClientCore.swift */; };
 		9427ABE91E4FE1B300071B75 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABE81E4FE1B300071B75 /* APIClient.swift */; };
-		9427ABEB1E4FE30600071B75 /* APIClientCore.Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABEA1E4FE30600071B75 /* APIClientCore.Internal.swift */; };
-		9427ABED1E4FE36300071B75 /* APIClientCore.Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABEC1E4FE36300071B75 /* APIClientCore.Public.swift */; };
+		9427ABED1E4FE36300071B75 /* APIClientCoreDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9427ABEC1E4FE36300071B75 /* APIClientCoreDataTask.swift */; };
 		AA79076DBA70D08D15DFA3BC /* Pods_MKHAPIClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A33257F5E9B8AA869C1B809A /* Pods_MKHAPIClient.framework */; };
 		D7589058AC478530FA59F5C7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081FCF233387FB8EE0D4167E /* UIKit.framework */; };
 /* End PBXBuildFile section */
@@ -29,12 +27,10 @@
 		8DD9EE3022BC9DCB9BD665B7 /* MKHAPIClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MKHAPIClient.h; sourceTree = "<group>"; };
 		92F68BC4FFA352D723B8ABC9 /* Pods-MKHAPIClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKHAPIClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-MKHAPIClient/Pods-MKHAPIClient.release.xcconfig"; sourceTree = "<group>"; };
 		9427ABE01E4FDFCC00071B75 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		9427ABE21E4FE12600071B75 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		9427ABE41E4FE15900071B75 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
+		9427ABE21E4FE12600071B75 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		9427ABE61E4FE17C00071B75 /* APIClientCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientCore.swift; sourceTree = "<group>"; };
 		9427ABE81E4FE1B300071B75 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		9427ABEA1E4FE30600071B75 /* APIClientCore.Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientCore.Internal.swift; sourceTree = "<group>"; };
-		9427ABEC1E4FE36300071B75 /* APIClientCore.Public.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientCore.Public.swift; sourceTree = "<group>"; };
+		9427ABEC1E4FE36300071B75 /* APIClientCoreDataTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientCoreDataTask.swift; sourceTree = "<group>"; };
 		A33257F5E9B8AA869C1B809A /* Pods_MKHAPIClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MKHAPIClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -73,11 +69,9 @@
 			isa = PBXGroup;
 			children = (
 				9427ABE61E4FE17C00071B75 /* APIClientCore.swift */,
-				9427ABEA1E4FE30600071B75 /* APIClientCore.Internal.swift */,
-				9427ABEC1E4FE36300071B75 /* APIClientCore.Public.swift */,
+				9427ABEC1E4FE36300071B75 /* APIClientCoreDataTask.swift */,
 				9427ABE81E4FE1B300071B75 /* APIClient.swift */,
-				9427ABE21E4FE12600071B75 /* Types.swift */,
-				9427ABE41E4FE15900071B75 /* Typealiases.swift */,
+				9427ABE21E4FE12600071B75 /* Helpers.swift */,
 				9427ABE01E4FDFCC00071B75 /* Errors.swift */,
 				5B1311BF41F319FB13CA5415 /* ParameterEncoding.swift */,
 			);
@@ -215,12 +209,10 @@
 			files = (
 				9427ABE91E4FE1B300071B75 /* APIClient.swift in Sources */,
 				9427ABE11E4FDFCC00071B75 /* Errors.swift in Sources */,
-				9427ABEB1E4FE30600071B75 /* APIClientCore.Internal.swift in Sources */,
-				9427ABE51E4FE15900071B75 /* Typealiases.swift in Sources */,
-				9427ABED1E4FE36300071B75 /* APIClientCore.Public.swift in Sources */,
+				9427ABED1E4FE36300071B75 /* APIClientCoreDataTask.swift in Sources */,
 				4CCFF30BD459C6A5417A492F /* ParameterEncoding.swift in Sources */,
 				9427ABE71E4FE17C00071B75 /* APIClientCore.swift in Sources */,
-				9427ABE31E4FE12600071B75 /* Types.swift in Sources */,
+				9427ABE31E4FE12600071B75 /* Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
