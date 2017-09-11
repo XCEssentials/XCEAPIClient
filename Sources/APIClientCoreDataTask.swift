@@ -23,6 +23,7 @@ extension APIClientCore
             self.onDidReceiveDataResponse?(request, ($0, $1, $2))
             completion($0, $1, $2)
         }
+        .resume()
     }
     
     func dataTaskHTTP(
@@ -43,6 +44,7 @@ extension APIClientCore
             self.onDidReceiveDataResponse?(request, ($0, $1, $2))
             completion($0, $1 as? HTTPURLResponse, $2)
         }
+        .resume()
     }
     
     // MARK: - HTTP helpers
