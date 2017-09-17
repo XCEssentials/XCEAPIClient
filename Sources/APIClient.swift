@@ -45,9 +45,7 @@ struct APIClient: APIClientCore
         ) throws
     {
         guard
-            let percentEncodedBasePath = basePath.addingPercentEncoding(
-                withAllowedCharacters: .urlPathAllowed
-            )
+            URL(string: basePath) != nil
         else
         {
             throw InvalidBasePath(basePath: basePath)
@@ -55,7 +53,7 @@ struct APIClient: APIClientCore
         
         //===
         
-        self.basePath = percentEncodedBasePath
+        self.basePath = basePath
         
         self.session = URLSession(
             configuration: sessionConfig,
