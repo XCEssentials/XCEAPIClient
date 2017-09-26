@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		12DBE06F02A69A23AD00A19C /* APIClientCoreDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C812DC927AF7032A021E16 /* APIClientCoreDataTask.swift */; };
 		399D0C16ADFBE2C8EA990A18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E677A431D403CA9D8ECAFED4 /* Foundation.framework */; };
+		94297F811F7B021200630D26 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94297F801F7B021200630D26 /* RequestBuilder.swift */; };
 		A42DABB5B1092510E2A9CB08 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251C51C995346153DEDAE04A /* Errors.swift */; };
 		A9E6885E6E907665E4B2EA53 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75623D8A56DED230031F87 /* APIClient.swift */; };
 		AABCDA7A21F2E7A931838429 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66731D489B7910695907D944 /* ParameterEncoding.swift */; };
@@ -55,10 +56,11 @@
 		251C51C995346153DEDAE04A /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		66731D489B7910695907D944 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
 		7BE923FEE047824539FC30E6 /* APIClientCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIClientCore.swift; sourceTree = "<group>"; };
+		94297F801F7B021200630D26 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		9EFD62CB696DAD1CB9A01A35 /* Main.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		A96B3E2071881F2268A2A8C1 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF75623D8A56DED230031F87 /* APIClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		D065E9FE308E0E924F1A931F /* Fwk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fwk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D065E9FE308E0E924F1A931F /* Fwk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fwk.framework; path = XCEAPIClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB746BB775FA85E38BF7F37 /* Helpers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E677A431D403CA9D8ECAFED4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F9C812DC927AF7032A021E16 /* APIClientCoreDataTask.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIClientCoreDataTask.swift; sourceTree = "<group>"; };
@@ -107,7 +109,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			name = "$local";
+			name = $local;
 			sourceTree = "<group>";
 		};
 		9FD971BB6B4661CDFCECA7C3 /* Frameworks */ = {
@@ -124,7 +126,6 @@
 			children = (
 				9EFD62CB696DAD1CB9A01A35 /* Main.swift */,
 			);
-			name = Tests;
 			path = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -137,8 +138,8 @@
 				251C51C995346153DEDAE04A /* Errors.swift */,
 				DCB746BB775FA85E38BF7F37 /* Helpers.swift */,
 				66731D489B7910695907D944 /* ParameterEncoding.swift */,
+				94297F801F7B021200630D26 /* RequestBuilder.swift */,
 			);
-			name = Sources;
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -231,7 +232,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-			showEnvVarsInLog = 1;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -240,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94297F811F7B021200630D26 /* RequestBuilder.swift in Sources */,
 				A9E6885E6E907665E4B2EA53 /* APIClient.swift in Sources */,
 				F9CE7997842446ADF7D76E8A /* APIClientCore.swift in Sources */,
 				12DBE06F02A69A23AD00A19C /* APIClientCoreDataTask.swift in Sources */,
