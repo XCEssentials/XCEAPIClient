@@ -14,9 +14,11 @@ let package = Package(
     targets: [
         .target(
             name: "APIClientSetup",
-            dependencies: ["XCERepoConfigurator", "PathKit"],
-            path: ".",
-            sources: ["main.swift"]
+            dependencies: [
+                "XCERepoConfigurator",
+                "PathKit"
+            ],
+            path: "Setup"
         )
     ]
 )
