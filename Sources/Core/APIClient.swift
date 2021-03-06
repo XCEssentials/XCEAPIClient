@@ -26,7 +26,7 @@
 
 import Foundation
 
-//===
+//---
 
 public
 struct APIClient: APIClientCore
@@ -77,7 +77,7 @@ struct APIClient: APIClientCore
             throw InvalidBasePath(basePath: basePath)
         }
         
-        //===
+        //---
         
         self.basePath = basePath
         

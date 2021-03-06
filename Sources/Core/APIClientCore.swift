@@ -26,7 +26,7 @@
 
 import Foundation
 
-//===
+//---
 
 public
 typealias DataTaskCompletion = (Data?, URLResponse?, Error?) -> Void
@@ -45,7 +45,7 @@ typealias DataTaskResult = (data: Data?, response: URLResponse?, error: Error?)
 //typealias DownloadTaskResult =
 //    (tempFile: URL?, response: URLResponse?, error: NSError?)
 
-//===
+//---
 
 public
 typealias OnConfigureRequest = (inout URLRequest, Parameters?) throws -> Void
@@ -56,7 +56,7 @@ typealias OnDidPrepareRequest = (URLRequest) -> Void
 public
 typealias OnDidReceiveDataResponse = (URLRequest, DataTaskResult) -> Void
 
-//===
+//---
 
 public
 protocol APIClientCore
@@ -105,7 +105,7 @@ extension APIClientCore
             )
         }
         
-        //===
+        //---
         
         var result = URLRequest(url: url)
         
@@ -113,7 +113,7 @@ extension APIClientCore
         try onConfigureRequest(&result, parameters)
         onDidPrepareRequest?(result)
         
-        //===
+        //---
         
         return result
     }

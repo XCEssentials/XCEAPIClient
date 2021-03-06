@@ -27,14 +27,14 @@
 public
 protocol APIClientError: Error {}
 
-//===
+//---
 
 struct InvalidBasePath: APIClientError
 {
     let basePath: String
 }
 
-//===
+//---
 
 struct InvalidRelativePath: APIClientError
 {
@@ -42,7 +42,7 @@ struct InvalidRelativePath: APIClientError
     let relativePath: String
 }
 
-//===
+//---
 
 struct ParameterEncodingFailed: APIClientError
 {
