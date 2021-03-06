@@ -12,7 +12,6 @@ print("--- BEGIN of '\(Executable.name)' script ---")
 // MARK: Parameters
 
 Spec.BuildSettings.swiftVersion.value = "5.0"
-let swiftLangVersions = "[.v5]"
 
 let localRepo = try Spec.LocalRepo.current()
 
@@ -82,7 +81,6 @@ try ReadMe()
         repo: project.name
     )
     .addSwiftPMCompatibleBadge()
-    .addCarthageCompatibleBadge()
     .addWrittenInSwiftBadge(
         version: Spec.BuildSettings.swiftVersion.value
     )
@@ -175,8 +173,7 @@ try CustomTextFile("""
                 ],
                 path: "\(sourcesLocations.tests)"
             ),
-        ],
-        swiftLanguageVersions: \(swiftLangVersions)
+        ]
     )
     """
     )
