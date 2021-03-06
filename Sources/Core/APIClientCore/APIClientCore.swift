@@ -29,36 +29,6 @@ import Foundation
 //---
 
 public
-typealias DataTaskCompletion = (Data?, URLResponse?, Error?) -> Void
-
-public
-typealias DataTaskHTTPCompletion = (Data?, HTTPURLResponse?, Error?) -> Void
-
-public
-typealias DataTaskResult = (data: Data?, response: URLResponse?, error: Error?)
-
-//public
-//typealias UploadTaskResult =
-//    (data: Data?, response: URLResponse?, error: NSError?)
-//
-//public
-//typealias DownloadTaskResult =
-//    (tempFile: URL?, response: URLResponse?, error: NSError?)
-
-//---
-
-public
-typealias OnConfigureRequest = (inout URLRequest, Parameters?) throws -> Void
-
-public
-typealias OnDidPrepareRequest = (URLRequest) -> Void
-
-public
-typealias OnDidReceiveDataResponse = (URLRequest, DataTaskResult) -> Void
-
-//---
-
-public
 protocol APIClientCore
 {
     var session: URLSession { get }

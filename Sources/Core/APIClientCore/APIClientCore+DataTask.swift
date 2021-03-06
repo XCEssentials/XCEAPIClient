@@ -26,13 +26,11 @@
 
 import Foundation
 
-//---
+// MARK: - DataTask
 
 public
 extension APIClientCore
 {
-    // MARK: - DataTask
-    
     func dataTask(
         relativePath: String,
         parameters: Parameters? = nil,
@@ -72,9 +70,13 @@ extension APIClientCore
         }
         .resume()
     }
-    
-    // MARK: - HTTP helpers
-    
+}
+
+// MARK: - HTTP helpers
+
+public
+extension APIClientCore
+{
     func get(
         _ relativePath: String,
         parameters: Parameters? = nil,
