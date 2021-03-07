@@ -46,5 +46,7 @@ enum HTTPHeaderFieldName: String
 public
 enum ContentType: String
 {
-    case formURLEncoded = "application/x-www-form-urlencoded"
+    case formURLEncoded = "application/x-www-form-urlencoded; charset=utf-8"
+    case json = "application/json"
+    case plist = "application/x-plist"
 }

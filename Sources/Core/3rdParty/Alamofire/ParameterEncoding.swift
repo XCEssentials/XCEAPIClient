@@ -120,7 +120,7 @@ public struct URLEncoding: ParameterEncoding {
         
         guard let parameters = parameters else { return .success(urlRequest) }
         
-        if let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET"), encodesParametersInURL(with: method) {
+        if let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? HTTPMethod.get.rawValue), encodesParametersInURL(with: method) {
             guard let url = urlRequest.url else {
                 return .failure(RequestEncodingIssue(reason: "URL encoding failed - missing URL", error: nil))
             }
@@ -131,8 +131,8 @@ public struct URLEncoding: ParameterEncoding {
                 urlRequest.url = urlComponents.url
             }
         } else {
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.formURLEncoded.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = query(parameters).data(using: .utf8, allowLossyConversion: false)
@@ -299,8 +299,8 @@ public struct JSONEncoding: ParameterEncoding {
         do {
             let data = try JSONSerialization.data(withJSONObject: parameters, options: options)
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
@@ -327,8 +327,8 @@ public struct JSONEncoding: ParameterEncoding {
         do {
             let data = try JSONSerialization.data(withJSONObject: jsonObject, options: options)
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
@@ -398,8 +398,8 @@ public struct PropertyListEncoding: ParameterEncoding {
                 options: options
             )
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/x-plist", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.plist.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
