@@ -44,6 +44,17 @@ public
 extension URLRequestFacilitator
 {
     func prepareRequest(
+        for definition: RequestDefinition
+        ) throws -> URLRequest
+    {
+        try prepareRequest(
+            type(of: definition).method,
+            relativePath: type(of: definition).relativePath,
+            parameters: definition.buildParameters()
+        )
+    }
+    
+    func prepareRequest(
         _ method: HTTPMethod? = nil,
         relativePath: String,
         parameters: Parameters? = nil

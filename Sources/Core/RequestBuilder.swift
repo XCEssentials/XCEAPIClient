@@ -25,17 +25,46 @@
  */
 
 public
-protocol RequestBuilder
+protocol RequestDefinition
 {
     static
     var relativePath: String { get }
+    
+    static
+    var method: HTTPMethod? { get }
 }
 
 public
-extension RequestBuilder {
+extension RequestDefinition {
     
     func buildParameters() throws -> Parameters {
         
-        [:]
+        return Mirror
+            .init(reflecting: self)
+            .children
+            .compactMap{
+                
+                (child: (label: String?, value: Any)) -> (key: String, value: Any)? in
+                
+                //---
+                
+                if
+                    let key = child.label
+                {
+                    return (key, child.value)
+                }
+                else
+                {
+                    return nil
+                }
+            }
+            .reduce(into: [:]) {
+                
+                result, nextItem in
+                
+                //---
+                
+                result[nextItem.key] = nextItem.value
+            }
     }
 }
