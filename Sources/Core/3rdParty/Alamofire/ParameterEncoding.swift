@@ -54,7 +54,7 @@ public protocol ParameterEncoding {
     /// - throws: An `AFError.parameterEncodingFailed` error if encoding fails.
     ///
     /// - returns: The encoded request.
-    func encode(_ urlRequest: URLRequest, with parameters: Parameters?) throws -> URLRequest
+    func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue>
 }
 
 // MARK: -
@@ -115,14 +115,14 @@ public struct URLEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return urlRequest }
+        guard let parameters = parameters else { return .success(urlRequest) }
         
-        if let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET"), encodesParametersInURL(with: method) {
+        if let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? HTTPMethod.get.rawValue), encodesParametersInURL(with: method) {
             guard let url = urlRequest.url else {
-                throw ParameterEncodingFailed(reason: "URL encoding failed - missing URL", error: nil)
+                return .failure(RequestEncodingIssue(reason: "URL encoding failed - missing URL", error: nil))
             }
             
             if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !parameters.isEmpty {
@@ -131,14 +131,14 @@ public struct URLEncoding: ParameterEncoding {
                 urlRequest.url = urlComponents.url
             }
         } else {
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.formURLEncoded.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = query(parameters).data(using: .utf8, allowLossyConversion: false)
         }
         
-        return urlRequest
+        return .success(urlRequest)
     }
     
     /// Creates percent-escaped, URL encoded query string components from the given key-value pair using recursion.
@@ -291,24 +291,24 @@ public struct JSONEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return urlRequest }
+        guard let parameters = parameters else { return .success(urlRequest) }
         
         do {
             let data = try JSONSerialization.data(withJSONObject: parameters, options: options)
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
         } catch {
-            throw ParameterEncodingFailed(reason: "JSON encoding failed", error: error)
+            return .failure(RequestEncodingIssue(reason: "JSON encoding failed", error: error))
         }
         
-        return urlRequest
+        return .success(urlRequest)
     }
     
     /// Creates a URL request by encoding the JSON object and setting the resulting data on the HTTP body.
@@ -327,13 +327,13 @@ public struct JSONEncoding: ParameterEncoding {
         do {
             let data = try JSONSerialization.data(withJSONObject: jsonObject, options: options)
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
         } catch {
-            throw ParameterEncodingFailed(reason: "JSON encoding failed", error: error)
+            throw RequestEncodingIssue(reason: "JSON encoding failed", error: error)
         }
         
         return urlRequest
@@ -386,10 +386,10 @@ public struct PropertyListEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return urlRequest }
+        guard let parameters = parameters else { return .success(urlRequest) }
         
         do {
             let data = try PropertyListSerialization.data(
@@ -398,16 +398,16 @@ public struct PropertyListEncoding: ParameterEncoding {
                 options: options
             )
             
-            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-                urlRequest.setValue("application/x-plist", forHTTPHeaderField: "Content-Type")
+            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
+                urlRequest.setValue(ContentType.plist.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
             }
             
             urlRequest.httpBody = data
         } catch {
-            throw ParameterEncodingFailed(reason: "Property list encoding failed", error: error)
+            return .failure(RequestEncodingIssue(reason: "Property list encoding failed", error: error))
         }
         
-        return urlRequest
+        return .success(urlRequest)
     }
 }
 

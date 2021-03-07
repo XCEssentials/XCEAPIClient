@@ -24,21 +24,35 @@
 
  */
 
-public
-protocol URLRequestFacilitatorError: Error {}
+import Foundation
 
 //---
 
+/// Minimal implementation of `URLRequestFacilitator`,
+/// suitable for wde variaty of URL requests in most usecases.
 public
-struct RequestEncodingIssue: URLRequestFacilitatorError
+struct BasicURLRequestFacilitator: URLRequestFacilitator
 {
-    let reason: String
-    let error: Error?
-}
-
-public
-enum PrepareRequestIssue: URLRequestFacilitatorError
-{    
-    case invalidRelativePath(String)
-    case requestEncodingFailed(RequestEncodingIssue)
+    public
+    let session: URLSession
+    
+    public
+    let sharedPrefixURL: URL
+    
+    public
+    let onEncodeRequest: OnEncodeRequest
+    
+    // MARK: - Initializers
+    
+    public
+    init(
+        sharedPrefixURL: URL,
+        session: URLSession = .shared,
+        onConfigureRequest: @escaping OnEncodeRequest = URLEncoding.default.encode
+        )
+    {
+        self.sharedPrefixURL = sharedPrefixURL
+        self.session = session
+        self.onEncodeRequest = onConfigureRequest
+    }
 }
