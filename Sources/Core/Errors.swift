@@ -29,15 +29,16 @@ protocol URLRequestFacilitatorError: Error {}
 
 //---
 
-struct InvalidRelativePath: URLRequestFacilitatorError
-{
-    let relativePath: String
-}
-
-//---
-
-struct ParameterEncodingFailed: URLRequestFacilitatorError
+public
+struct RequestEncodingIssue: URLRequestFacilitatorError
 {
     let reason: String
     let error: Error?
+}
+
+public
+enum PrepareRequestIssue: URLRequestFacilitatorError
+{    
+    case invalidRelativePath(String)
+    case requestEncodingFailed(RequestEncodingIssue)
 }

@@ -32,20 +32,13 @@ public
 struct BasicURLRequestFacilitator: URLRequestFacilitator
 {
     public
-    static
-    let onConfigureRequest: OnConfigureRequest = {
-        
-        try URLEncoding.default.encode($0, with: $1)
-    }
-
-    public
     let session: URLSession
     
     public
     let sharedPrefixURL: URL
     
     public
-    let onConfigureRequest: OnConfigureRequest
+    let onEncodeRequest: OnEncodeRequest
     
     // MARK: - Initializers
     
@@ -53,11 +46,11 @@ struct BasicURLRequestFacilitator: URLRequestFacilitator
     init(
         sharedPrefixURL: URL,
         session: URLSession = .shared,
-        onConfigureRequest: @escaping OnConfigureRequest = Self.onConfigureRequest
+        onConfigureRequest: @escaping OnEncodeRequest = URLEncoding.default.encode
         )
     {
         self.sharedPrefixURL = sharedPrefixURL
         self.session = session
-        self.onConfigureRequest = onConfigureRequest
+        self.onEncodeRequest = onConfigureRequest
     }
 }

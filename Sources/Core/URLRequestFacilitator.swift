@@ -35,7 +35,7 @@ protocol URLRequestFacilitator
     
     var sharedPrefixURL: URL { get }
     
-    var onConfigureRequest: OnConfigureRequest { get }
+    var onEncodeRequest: OnEncodeRequest { get }
 }
 
 // MARK: - Internal methods
@@ -44,31 +44,17 @@ public
 extension URLRequestFacilitator
 {
     func prepareRequest(
-        for definition: RequestDefinition
-        ) throws -> URLRequest
-    {
-        try prepareRequest(
-            type(of: definition).method,
-            relativePath: type(of: definition).relativePath,
-            parameters: definition.buildParameters()
-        )
-    }
-    
-    func prepareRequest(
         _ method: HTTPMethod? = nil,
         relativePath: String,
         parameters: Parameters? = nil
-        ) throws -> URLRequest
+        ) -> Result<URLRequest, PrepareRequestIssue>
     {
         guard
-            let encodedRelativePath = relativePath.addingPercentEncoding(
-                withAllowedCharacters: .urlPathAllowed
-            )
+            let encodedRelativePath = relativePath
+                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         else
         {
-            throw InvalidRelativePath(
-                relativePath: relativePath
-            )
+            return .failure(.invalidRelativePath(relativePath))
         }
         
         //---
@@ -77,10 +63,25 @@ extension URLRequestFacilitator
         targetURL.appendPathComponent(encodedRelativePath)
         var result = URLRequest(url: targetURL)
         result.httpMethod = method?.rawValue
-        result = try onConfigureRequest(result, parameters)
         
-        //---
-        
-        return result
+        switch onEncodeRequest(result, parameters)
+        {
+        case .success(let output):
+            return .success(output)
+            
+        case .failure(let error):
+            return .failure(.requestEncodingFailed(error))
+        }
+    }
+
+    func prepareRequest(
+        for definition: RequestDefinition
+        ) -> Result<URLRequest, PrepareRequestIssue>
+    {
+        prepareRequest(
+            type(of: definition).method,
+            relativePath: type(of: definition).relativePath,
+            parameters: definition.parameters
+        )
     }
 }

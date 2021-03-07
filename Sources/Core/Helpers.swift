@@ -29,7 +29,7 @@ import Foundation
 //---
 
 public
-typealias OnConfigureRequest = (URLRequest, Parameters?) throws -> URLRequest
+typealias OnEncodeRequest = (URLRequest, Parameters?) -> Result<URLRequest, RequestEncodingIssue>
 
 //---
 

@@ -6,22 +6,27 @@ import XCEAPIClient
 //---
 
 final
-class RequestDefinitionTests: XCTestCase {
-    
-    func testBuildParameters() {
+class RequestDefinitionTests: XCTestCase
+{
+    struct UserRequestDefinition: RequestDefinition
+    {
+        static
+        let relativePath: String = "user"
         
-        struct UserRequestDefinition: RequestDefinition {
-            
-            static
-            let relativePath: String = "user"
-            
-            static
-            let method: HTTPMethod? = .get
-            
-            let id: String
-        }
+        static
+        let method: HTTPMethod? = .get
         
-        let sut = try! UserRequestDefinition(id: "123").buildParameters()
+        let id: String
+    }
+}
+
+//---
+
+extension RequestDefinitionTests
+{
+    func test_buildParameters()
+    {
+        let sut = UserRequestDefinition(id: "123").parameters
         
         XCTAssertEqual(sut.count, 1)
         XCTAssertTrue(sut.contains(where: { $0.key == "id" }))

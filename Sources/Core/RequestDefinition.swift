@@ -37,9 +37,9 @@ protocol RequestDefinition
 public
 extension RequestDefinition {
     
-    func buildParameters() throws -> Parameters {
+    var parameters: Parameters {
         
-        return Mirror
+        Mirror
             .init(reflecting: self)
             .children
             .compactMap{
