@@ -28,6 +28,8 @@ import Foundation
 
 //---
 
+/// Minimal implementation of `URLRequestFacilitator`,
+/// suitable for wde variaty of URL requests in most usecases.
 public
 struct BasicURLRequestFacilitator: URLRequestFacilitator
 {

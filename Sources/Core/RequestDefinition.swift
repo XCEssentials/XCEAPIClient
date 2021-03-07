@@ -37,6 +37,7 @@ protocol RequestDefinition
 public
 extension RequestDefinition {
     
+    /// Parameters for the corresponding URL request.
     var parameters: Parameters {
         
         Mirror
