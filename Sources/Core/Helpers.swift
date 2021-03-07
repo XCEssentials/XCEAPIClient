@@ -24,6 +24,15 @@
 
  */
 
+import Foundation
+
+//---
+
+public
+typealias OnEncodeRequest = (URLRequest, Parameters?) -> Result<URLRequest, RequestEncodingIssue>
+
+//---
+
 public
 enum HTTPHeaderFieldName: String
 {
@@ -32,10 +41,12 @@ enum HTTPHeaderFieldName: String
         contentType = "Content-Type"
 }
 
-//===
+//---
 
 public
 enum ContentType: String
 {
-    case formURLEncoded = "application/x-www-form-urlencoded"
+    case formURLEncoded = "application/x-www-form-urlencoded; charset=utf-8"
+    case json = "application/json"
+    case plist = "application/x-plist"
 }

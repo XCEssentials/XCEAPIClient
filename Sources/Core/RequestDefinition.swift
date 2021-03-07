@@ -25,10 +25,47 @@
  */
 
 public
-protocol RequestBuilder
+protocol RequestDefinition
 {
     static
     var relativePath: String { get }
+    
+    static
+    var method: HTTPMethod? { get }
+}
 
-    func buildParameters() throws -> Parameters
+public
+extension RequestDefinition {
+    
+    /// Parameters for the corresponding URL request.
+    var parameters: Parameters {
+        
+        Mirror
+            .init(reflecting: self)
+            .children
+            .compactMap{
+                
+                (child: (label: String?, value: Any)) -> (key: String, value: Any)? in
+                
+                //---
+                
+                if
+                    let key = child.label
+                {
+                    return (key, child.value)
+                }
+                else
+                {
+                    return nil
+                }
+            }
+            .reduce(into: [:]) {
+                
+                result, nextItem in
+                
+                //---
+                
+                result[nextItem.key] = nextItem.value
+            }
+    }
 }
