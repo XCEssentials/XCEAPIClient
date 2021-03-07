@@ -24,6 +24,15 @@
 
  */
 
+import Foundation
+
+//---
+
+public
+typealias OnConfigureRequest = (URLRequest, Parameters?) throws -> URLRequest
+
+//---
+
 public
 enum HTTPHeaderFieldName: String
 {

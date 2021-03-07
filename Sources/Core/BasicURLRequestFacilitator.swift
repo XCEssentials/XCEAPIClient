@@ -29,29 +29,35 @@ import Foundation
 //---
 
 public
-typealias DataTaskCompletion = (Data?, URLResponse?, Error?) -> Void
+struct BasicURLRequestFacilitator: URLRequestFacilitator
+{
+    public
+    static
+    let onConfigureRequest: OnConfigureRequest = {
+        
+        try URLEncoding.default.encode($0, with: $1)
+    }
 
-public
-typealias DataTaskHTTPCompletion = (Data?, HTTPURLResponse?, Error?) -> Void
-
-public
-typealias DataTaskResult = (data: Data?, response: URLResponse?, error: Error?)
-
-//public
-//typealias UploadTaskResult =
-//    (data: Data?, response: URLResponse?, error: NSError?)
-//
-//public
-//typealias DownloadTaskResult =
-//    (tempFile: URL?, response: URLResponse?, error: NSError?)
-
-//---
-
-public
-typealias OnConfigureRequest = (inout URLRequest, Parameters?) throws -> Void
-
-public
-typealias OnDidPrepareRequest = (URLRequest) -> Void
-
-public
-typealias OnDidReceiveDataResponse = (URLRequest, DataTaskResult) -> Void
+    public
+    let session: URLSession
+    
+    public
+    let sharedPrefixURL: URL
+    
+    public
+    let onConfigureRequest: OnConfigureRequest
+    
+    // MARK: - Initializers
+    
+    public
+    init(
+        sharedPrefixURL: URL,
+        session: URLSession = .shared,
+        onConfigureRequest: @escaping OnConfigureRequest = Self.onConfigureRequest
+        )
+    {
+        self.sharedPrefixURL = sharedPrefixURL
+        self.session = session
+        self.onConfigureRequest = onConfigureRequest
+    }
+}

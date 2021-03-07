@@ -25,26 +25,18 @@
  */
 
 public
-protocol APIClientError: Error {}
+protocol URLRequestFacilitatorError: Error {}
 
 //---
 
-struct InvalidBasePath: APIClientError
+struct InvalidRelativePath: URLRequestFacilitatorError
 {
-    let basePath: String
-}
-
-//---
-
-struct InvalidRelativePath: APIClientError
-{
-    let basePath: String
     let relativePath: String
 }
 
 //---
 
-struct ParameterEncodingFailed: APIClientError
+struct ParameterEncodingFailed: URLRequestFacilitatorError
 {
     let reason: String
     let error: Error?

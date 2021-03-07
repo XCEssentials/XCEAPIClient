@@ -29,32 +29,19 @@ import Foundation
 //---
 
 public
-protocol APIClientCore
+protocol URLRequestFacilitator
 {
     var session: URLSession { get }
     
-    var basePath: String { get }
+    var sharedPrefixURL: URL { get }
     
     var onConfigureRequest: OnConfigureRequest { get }
-    
-    var onDidPrepareRequest: OnDidPrepareRequest? { get }
-    
-    var onDidReceiveDataResponse: OnDidReceiveDataResponse? { get }
-    
-    init(
-        basePath: String,
-        onConfigureRequest: @escaping OnConfigureRequest,
-        onDidPrepareRequest: OnDidPrepareRequest?,
-        onDidReceiveDataResponse: OnDidReceiveDataResponse?,
-        sessionConfig: URLSessionConfiguration,
-        sessionDelegate: URLSessionDelegate?,
-        sessionDelegateQueue: OperationQueue?
-        ) throws
 }
 
 // MARK: - Internal methods
 
-extension APIClientCore
+public
+extension URLRequestFacilitator
 {
     func prepareRequest(
         _ method: HTTPMethod? = nil,
@@ -63,25 +50,23 @@ extension APIClientCore
         ) throws -> URLRequest
     {
         guard
-            let rPath = relativePath.addingPercentEncoding(
+            let encodedRelativePath = relativePath.addingPercentEncoding(
                 withAllowedCharacters: .urlPathAllowed
-            ),
-            let url = URL(string: basePath + rPath)
+            )
         else
         {
             throw InvalidRelativePath(
-                basePath: basePath,
                 relativePath: relativePath
             )
         }
         
         //---
         
-        var result = URLRequest(url: url)
-        
+        var targetURL = sharedPrefixURL
+        targetURL.appendPathComponent(encodedRelativePath)
+        var result = URLRequest(url: targetURL)
         result.httpMethod = method?.rawValue
-        try onConfigureRequest(&result, parameters)
-        onDidPrepareRequest?(result)
+        result = try onConfigureRequest(result, parameters)
         
         //---
         

@@ -29,6 +29,13 @@ protocol RequestBuilder
 {
     static
     var relativePath: String { get }
+}
 
-    func buildParameters() throws -> Parameters
+public
+extension RequestBuilder {
+    
+    func buildParameters() throws -> Parameters {
+        
+        [:]
+    }
 }
