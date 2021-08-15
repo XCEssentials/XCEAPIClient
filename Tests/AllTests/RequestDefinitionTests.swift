@@ -17,6 +17,20 @@ class RequestDefinitionTests: XCTestCase
         let method: HTTPMethod? = .get
         
         let id: String
+        
+        var optionalFlag: Int? = nil
+    }
+    
+    var facilitator: URLRequestFacilitator!
+    
+    override func setUp() {
+        super.setUp()
+        facilitator = BasicURLRequestFacilitator(sharedPrefixURL: .init(string: "host.com")!)
+    }
+    
+    override func tearDown() {
+        facilitator = nil
+        super.tearDown()
     }
 }
 
@@ -24,12 +38,26 @@ class RequestDefinitionTests: XCTestCase
 
 extension RequestDefinitionTests
 {
-    func test_buildParameters()
+    func test_buildParameters_withoutOptional()
     {
-        let sut = UserRequestDefinition(id: "123").parameters
+        let definition = UserRequestDefinition(id: "123")
+        let request = try! facilitator.prepareRequest(for: definition).get()
+        let components = URLComponents(string: request.url!.absoluteString)!
+        let sut = components.queryItems!
         
         XCTAssertEqual(sut.count, 1)
-        XCTAssertTrue(sut.contains(where: { $0.key == "id" }))
-        XCTAssertTrue(sut.contains(where: { ($0.value as? String) == "123" }))
+        XCTAssertTrue(sut.contains(where: { $0.name == "id" && $0.value == "123" }))
+    }
+    
+    func test_buildParameters_withOptional()
+    {
+        let definition = UserRequestDefinition(id: "123", optionalFlag: 22)
+        let request = try! facilitator.prepareRequest(for: definition).get()
+        let components = URLComponents(string: request.url!.absoluteString)!
+        let sut = components.queryItems!
+        
+        XCTAssertEqual(sut.count, 2)
+        XCTAssertTrue(sut.contains(where: { $0.name == "id" && $0.value == "123" }))
+        XCTAssertTrue(sut.contains(where: { $0.name == "optionalFlag" && $0.value == "22" }))
     }
 }
