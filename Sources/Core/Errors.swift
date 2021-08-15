@@ -38,7 +38,10 @@ struct RequestEncodingIssue: URLRequestFacilitatorError
 
 public
 enum PrepareRequestIssue: URLRequestFacilitatorError
-{    
+{
+    case conversionIntoDataFailed(Error)
+    case conversionDataIntoJSONObjectFailed(Error)
+    case conversionJSONObjectIntoDictionaryFailed(theObject: Any)
     case invalidRelativePath(String)
     case requestEncodingFailed(RequestEncodingIssue)
 }
