@@ -74,14 +74,55 @@ extension URLRequestFacilitator
         }
     }
 
-    func prepareRequest(
-        for definition: RequestDefinition
+    func prepareRequest<R: RequestDefinition>(
+        for definition: R,
+        toDataConverter: (R) throws -> Data = JSONEncoder().encode,
+        dataToDictOptions: JSONSerialization.ReadingOptions = .init()
         ) -> Result<URLRequest, PrepareRequestIssue>
     {
-        prepareRequest(
+        let parametersData: Data
+        
+        do
+        {
+            parametersData = try toDataConverter(definition)
+        }
+        catch
+        {
+            return .failure(.conversionIntoDataFailed(error))
+        }
+        
+        //---
+        
+        let parametersObject: Any
+        
+        do
+        {
+            parametersObject = try JSONSerialization
+                .jsonObject(
+                    with: parametersData,
+                    options: dataToDictOptions
+                )
+        }
+        catch
+        {
+            return .failure(.conversionDataIntoJSONObjectFailed(error))
+        }
+        
+        //---
+        
+        guard
+            let parameters = parametersObject as? Parameters
+        else
+        {
+            return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
+        }
+        
+        //---
+        
+        return prepareRequest(
             type(of: definition).method,
             relativePath: type(of: definition).relativePath,
-            parameters: definition.parameters
+            parameters: parameters
         )
     }
 }
