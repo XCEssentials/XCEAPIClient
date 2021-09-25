@@ -34,57 +34,22 @@ protocol URLRequestFacilitator
     var session: URLSession { get }
     
     var sharedPrefixURL: URL { get }
-    
-    var onEncodeRequest: OnEncodeRequest { get }
 }
 
-// MARK: - Internal methods
+// MARK: - Commands - Public
 
 public
 extension URLRequestFacilitator
 {
-    func prepareRequest(
-        _ method: HTTPMethod? = nil,
-        relativePath: String,
-        parameters: Parameters? = nil
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
-        guard
-            let encodedRelativePath = relativePath
-                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-        else
-        {
-            return .failure(.invalidRelativePath(relativePath))
-        }
-        
-        //---
-        
-        var targetURL = sharedPrefixURL
-        targetURL.appendPathComponent(encodedRelativePath)
-        var result = URLRequest(url: targetURL)
-        result.httpMethod = method?.rawValue
-        
-        switch onEncodeRequest(result, parameters)
-        {
-        case .success(let output):
-            return .success(output)
-            
-        case .failure(let error):
-            return .failure(.requestEncodingFailed(error))
-        }
-    }
-
     func prepareRequest<R: RequestDefinition>(
-        for definition: R,
-        toDataConverter: (R) throws -> Data = JSONEncoder().encode,
-        dataToDictOptions: JSONSerialization.ReadingOptions = .init()
+        from definition: R
         ) -> Result<URLRequest, PrepareRequestIssue>
     {
         let parametersData: Data
         
         do
         {
-            parametersData = try toDataConverter(definition)
+            parametersData = try R.toDataConverter(definition)
         }
         catch
         {
@@ -100,7 +65,7 @@ extension URLRequestFacilitator
             parametersObject = try JSONSerialization
                 .jsonObject(
                     with: parametersData,
-                    options: dataToDictOptions
+                    options: R.dataToDictionaryConversionOptions
                 )
         }
         catch
@@ -120,9 +85,47 @@ extension URLRequestFacilitator
         //---
         
         return prepareRequest(
-            type(of: definition).method,
-            relativePath: type(of: definition).relativePath,
+            R.method,
+            relativePath: R.relativePath,
+            parameterEncoding: R.parameterEncoding,
             parameters: parameters
         )
+    }
+}
+    
+// MARK: - Internal methods
+
+extension URLRequestFacilitator
+{
+    func prepareRequest(
+        _ method: HTTPMethod? = nil,
+        relativePath: String,
+        parameterEncoding: ParameterEncoding,
+        parameters: Parameters? = nil
+        ) -> Result<URLRequest, PrepareRequestIssue>
+    {
+        guard
+            let encodedRelativePath = relativePath
+                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+        else
+        {
+            return .failure(.invalidRelativePath(relativePath))
+        }
+        
+        //---
+        
+        var targetURL = sharedPrefixURL
+        targetURL.appendPathComponent(encodedRelativePath)
+        var result = URLRequest(url: targetURL)
+        result.httpMethod = method?.rawValue
+        
+        switch parameterEncoding.encode(result, with: parameters)
+        {
+        case .success(let output):
+            return .success(output)
+            
+        case .failure(let error):
+            return .failure(.requestEncodingFailed(error))
+        }
     }
 }

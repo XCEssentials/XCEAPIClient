@@ -29,11 +29,6 @@ import Foundation
 //---
 
 public
-typealias OnEncodeRequest = (URLRequest, Parameters?) -> Result<URLRequest, RequestEncodingIssue>
-
-//---
-
-public
 enum HTTPHeaderFieldName: String
 {
     case

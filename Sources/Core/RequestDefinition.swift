@@ -24,6 +24,10 @@
 
  */
 
+import Foundation
+
+//---
+
 public
 protocol RequestDefinition: Encodable
 {
@@ -32,4 +36,25 @@ protocol RequestDefinition: Encodable
     
     static
     var method: HTTPMethod? { get }
+    
+    static
+    var parameterEncoding: ParameterEncoding { get }
+    
+    static
+    var toDataConverter: (Self) throws -> Data { get }
+        
+    static
+    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { get }
+}
+
+//---
+
+public
+extension RequestDefinition
+{
+    static
+    var toDataConverter: (Self) throws -> Data { JSONEncoder().encode }
+        
+    static
+    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { .init() }
 }
