@@ -41,7 +41,7 @@ extension RequestDefinitionTests
     func test_buildParameters_withoutOptional()
     {
         let definition = UserRequestDefinition(id: "123")
-        let request = try! facilitator.prepareRequest(for: definition).get()
+        let request = try! facilitator.prepareRequest()(definition).get()
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         
@@ -52,7 +52,7 @@ extension RequestDefinitionTests
     func test_buildParameters_withOptional()
     {
         let definition = UserRequestDefinition(id: "123", optionalFlag: 22)
-        let request = try! facilitator.prepareRequest(for: definition).get()
+        let request = try! facilitator.prepareRequest()(definition).get()
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         

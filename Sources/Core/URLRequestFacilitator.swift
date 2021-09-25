@@ -38,9 +38,68 @@ protocol URLRequestFacilitator
     var onEncodeRequest: OnEncodeRequest { get }
 }
 
-// MARK: - Internal methods
+// MARK: - Commands - Public
 
 public
+extension URLRequestFacilitator
+{
+    func prepareRequest<R: RequestDefinition>(
+        toDataConverter: @escaping (R) throws -> Data = JSONEncoder().encode,
+        dataToDictOptions: JSONSerialization.ReadingOptions = .init()
+        ) -> (R) -> Result<URLRequest, PrepareRequestIssue>
+    {
+        return { definition in
+            
+            let parametersData: Data
+            
+            do
+            {
+                parametersData = try toDataConverter(definition)
+            }
+            catch
+            {
+                return .failure(.conversionIntoDataFailed(error))
+            }
+            
+            //---
+            
+            let parametersObject: Any
+            
+            do
+            {
+                parametersObject = try JSONSerialization
+                    .jsonObject(
+                        with: parametersData,
+                        options: dataToDictOptions
+                    )
+            }
+            catch
+            {
+                return .failure(.conversionDataIntoJSONObjectFailed(error))
+            }
+            
+            //---
+            
+            guard
+                let parameters = parametersObject as? Parameters
+            else
+            {
+                return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
+            }
+            
+            //---
+            
+            return prepareRequest(
+                type(of: definition).method,
+                relativePath: type(of: definition).relativePath,
+                parameters: parameters
+            )
+        }
+    }
+}
+    
+// MARK: - Internal methods
+
 extension URLRequestFacilitator
 {
     func prepareRequest(
@@ -72,57 +131,5 @@ extension URLRequestFacilitator
         case .failure(let error):
             return .failure(.requestEncodingFailed(error))
         }
-    }
-
-    func prepareRequest<R: RequestDefinition>(
-        for definition: R,
-        toDataConverter: (R) throws -> Data = JSONEncoder().encode,
-        dataToDictOptions: JSONSerialization.ReadingOptions = .init()
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
-        let parametersData: Data
-        
-        do
-        {
-            parametersData = try toDataConverter(definition)
-        }
-        catch
-        {
-            return .failure(.conversionIntoDataFailed(error))
-        }
-        
-        //---
-        
-        let parametersObject: Any
-        
-        do
-        {
-            parametersObject = try JSONSerialization
-                .jsonObject(
-                    with: parametersData,
-                    options: dataToDictOptions
-                )
-        }
-        catch
-        {
-            return .failure(.conversionDataIntoJSONObjectFailed(error))
-        }
-        
-        //---
-        
-        guard
-            let parameters = parametersObject as? Parameters
-        else
-        {
-            return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
-        }
-        
-        //---
-        
-        return prepareRequest(
-            type(of: definition).method,
-            relativePath: type(of: definition).relativePath,
-            parameters: parameters
-        )
     }
 }
