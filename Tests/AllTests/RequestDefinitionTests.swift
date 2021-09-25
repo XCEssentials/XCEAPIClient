@@ -16,6 +16,9 @@ class RequestDefinitionTests: XCTestCase
         static
         let method: HTTPMethod? = .get
         
+        static
+        let parameterEncoding: ParameterEncoding = URLEncoding.default
+        
         let id: String
         
         var optionalFlag: Int? = nil
@@ -41,7 +44,7 @@ extension RequestDefinitionTests
     func test_buildParameters_withoutOptional()
     {
         let definition = UserRequestDefinition(id: "123")
-        let request = try! facilitator.prepareRequest()(definition).get()
+        let request = try! facilitator.prepareRequest(from: definition).get()
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         
@@ -52,7 +55,7 @@ extension RequestDefinitionTests
     func test_buildParameters_withOptional()
     {
         let definition = UserRequestDefinition(id: "123", optionalFlag: 22)
-        let request = try! facilitator.prepareRequest()(definition).get()
+        let request = try! facilitator.prepareRequest(from: definition).get()
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         

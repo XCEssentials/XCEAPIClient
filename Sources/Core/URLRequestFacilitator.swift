@@ -34,8 +34,6 @@ protocol URLRequestFacilitator
     var session: URLSession { get }
     
     var sharedPrefixURL: URL { get }
-    
-    var onEncodeRequest: OnEncodeRequest { get }
 }
 
 // MARK: - Commands - Public
@@ -44,57 +42,54 @@ public
 extension URLRequestFacilitator
 {
     func prepareRequest<R: RequestDefinition>(
-        toDataConverter: @escaping (R) throws -> Data = JSONEncoder().encode,
-        dataToDictOptions: JSONSerialization.ReadingOptions = .init()
-        ) -> (R) -> Result<URLRequest, PrepareRequestIssue>
+        from definition: R
+        ) -> Result<URLRequest, PrepareRequestIssue>
     {
-        return { definition in
-            
-            let parametersData: Data
-            
-            do
-            {
-                parametersData = try toDataConverter(definition)
-            }
-            catch
-            {
-                return .failure(.conversionIntoDataFailed(error))
-            }
-            
-            //---
-            
-            let parametersObject: Any
-            
-            do
-            {
-                parametersObject = try JSONSerialization
-                    .jsonObject(
-                        with: parametersData,
-                        options: dataToDictOptions
-                    )
-            }
-            catch
-            {
-                return .failure(.conversionDataIntoJSONObjectFailed(error))
-            }
-            
-            //---
-            
-            guard
-                let parameters = parametersObject as? Parameters
-            else
-            {
-                return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
-            }
-            
-            //---
-            
-            return prepareRequest(
-                type(of: definition).method,
-                relativePath: type(of: definition).relativePath,
-                parameters: parameters
-            )
+        let parametersData: Data
+        
+        do
+        {
+            parametersData = try R.toDataConverter(definition)
         }
+        catch
+        {
+            return .failure(.conversionIntoDataFailed(error))
+        }
+        
+        //---
+        
+        let parametersObject: Any
+        
+        do
+        {
+            parametersObject = try JSONSerialization
+                .jsonObject(
+                    with: parametersData,
+                    options: R.dataToDictionaryConversionOptions
+                )
+        }
+        catch
+        {
+            return .failure(.conversionDataIntoJSONObjectFailed(error))
+        }
+        
+        //---
+        
+        guard
+            let parameters = parametersObject as? Parameters
+        else
+        {
+            return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
+        }
+        
+        //---
+        
+        return prepareRequest(
+            R.method,
+            relativePath: R.relativePath,
+            parameterEncoding: R.parameterEncoding,
+            parameters: parameters
+        )
     }
 }
     
@@ -105,6 +100,7 @@ extension URLRequestFacilitator
     func prepareRequest(
         _ method: HTTPMethod? = nil,
         relativePath: String,
+        parameterEncoding: ParameterEncoding,
         parameters: Parameters? = nil
         ) -> Result<URLRequest, PrepareRequestIssue>
     {
@@ -123,7 +119,7 @@ extension URLRequestFacilitator
         var result = URLRequest(url: targetURL)
         result.httpMethod = method?.rawValue
         
-        switch onEncodeRequest(result, parameters)
+        switch parameterEncoding.encode(result, with: parameters)
         {
         case .success(let output):
             return .success(output)
