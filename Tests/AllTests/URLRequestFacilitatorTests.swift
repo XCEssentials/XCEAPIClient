@@ -22,6 +22,7 @@ extension URLRequestFacilitatorTests
         let sut = facilitator.prepareRequest(
             .get,
             relativePath: "user",
+            parameterEncoding: URLEncoding.default,
             parameters: ["id": "123"]
         )
         

@@ -39,20 +39,15 @@ struct BasicURLRequestFacilitator: URLRequestFacilitator
     public
     let sharedPrefixURL: URL
     
-    public
-    let onEncodeRequest: OnEncodeRequest
-    
     // MARK: - Initializers
     
     public
     init(
         sharedPrefixURL: URL,
-        session: URLSession = .shared,
-        onConfigureRequest: @escaping OnEncodeRequest = URLEncoding.default.encode
+        session: URLSession = .shared
         )
     {
         self.sharedPrefixURL = sharedPrefixURL
         self.session = session
-        self.onEncodeRequest = onConfigureRequest
     }
 }
