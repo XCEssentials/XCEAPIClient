@@ -31,9 +31,8 @@ import Foundation
 public
 enum HTTPHeaderFieldName: String
 {
-    case
-        authorization = "Authorization",
-        contentType = "Content-Type"
+    case authorization = "Authorization"
+    case contentType = "Content-Type"
 }
 
 //---

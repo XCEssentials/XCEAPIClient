@@ -41,10 +41,10 @@ class RequestDefinitionTests: XCTestCase
 
 extension RequestDefinitionTests
 {
-    func test_buildParameters_withoutOptional()
+    func test_buildParameters_withoutOptional() async throws
     {
         let definition = UserRequestDefinition(id: "123")
-        let request = try! facilitator.prepareRequest(from: definition).get()
+        let request = try await facilitator.prepareRequest(from: definition)
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         
@@ -52,10 +52,10 @@ extension RequestDefinitionTests
         XCTAssertTrue(sut.contains(where: { $0.name == "id" && $0.value == "123" }))
     }
     
-    func test_buildParameters_withOptional()
+    func test_buildParameters_withOptional() async throws
     {
         let definition = UserRequestDefinition(id: "123", optionalFlag: 22)
-        let request = try! facilitator.prepareRequest(from: definition).get()
+        let request = try await facilitator.prepareRequest(from: definition)
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         

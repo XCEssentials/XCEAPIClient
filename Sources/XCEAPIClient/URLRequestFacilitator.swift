@@ -43,8 +43,8 @@ extension URLRequestFacilitator
 {
     func prepareRequest<R: RequestDefinition>(
         from definition: R
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
+    ) async throws -> URLRequest {
+    
         let parametersData: Data
         
         do
@@ -53,7 +53,7 @@ extension URLRequestFacilitator
         }
         catch
         {
-            return .failure(.conversionIntoDataFailed(error))
+            throw PrepareRequestIssue.conversionIntoDataFailed(error)
         }
         
         //---
@@ -70,21 +70,20 @@ extension URLRequestFacilitator
         }
         catch
         {
-            return .failure(.conversionDataIntoJSONObjectFailed(error))
+            throw PrepareRequestIssue.conversionDataIntoJSONObjectFailed(error)
         }
         
         //---
         
         guard
             let parameters = parametersObject as? Parameters
-        else
-        {
-            return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
+        else {
+            throw PrepareRequestIssue.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject)
         }
         
         //---
         
-        return prepareRequest(
+        return try await prepareRequest(
             R.method,
             relativePath: R.relativePath,
             parameterEncoding: R.parameterEncoding,
@@ -92,7 +91,7 @@ extension URLRequestFacilitator
         )
     }
 }
-    
+
 // MARK: - Internal methods
 
 extension URLRequestFacilitator
@@ -102,30 +101,23 @@ extension URLRequestFacilitator
         relativePath: String,
         parameterEncoding: ParameterEncoding,
         parameters: Parameters? = nil
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
+    ) async throws -> URLRequest {
+        
         guard
             let encodedRelativePath = relativePath
                 .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         else
         {
-            return .failure(.invalidRelativePath(relativePath))
+            throw PrepareRequestIssue.invalidRelativePath(relativePath)
         }
-        
-        //---
         
         var targetURL = sharedPrefixURL
         targetURL.appendPathComponent(encodedRelativePath)
         var result = URLRequest(url: targetURL)
         result.httpMethod = method?.rawValue
-        
-        switch parameterEncoding.encode(result, with: parameters)
-        {
-        case .success(let output):
-            return .success(output)
-            
-        case .failure(let error):
-            return .failure(.requestEncodingFailed(error))
-        }
+
+        return try parameterEncoding
+            .encode(result, with: parameters)
+            .get()
     }
 }

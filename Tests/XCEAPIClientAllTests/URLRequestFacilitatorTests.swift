@@ -8,7 +8,7 @@ import XCEAPIClient
 final
 class URLRequestFacilitatorTests: XCTestCase
 {
-    let facilitator = BasicURLRequestFacilitator(
+    let sut = BasicURLRequestFacilitator(
         sharedPrefixURL: URL(string: "example.com")!
     )
 }
@@ -17,23 +17,16 @@ class URLRequestFacilitatorTests: XCTestCase
 
 extension URLRequestFacilitatorTests
 {
-    func test_prepareRequest_happyPath()
+    func test_prepareRequest_happyPath() async throws
     {
-        let sut = facilitator.prepareRequest(
+        let request = try await sut.prepareRequest(
             .get,
             relativePath: "user",
             parameterEncoding: URLEncoding.default,
             parameters: ["id": "123"]
         )
-        
-        switch sut
-        {
-        case .success(let request):
-            XCTAssertEqual(request.httpMethod, "GET")
-            XCTAssertEqual(request.url?.absoluteString, "example.com/user?id=123")
-            
-        default:
-            XCTFail("Expected a success")
-        }
+
+        XCTAssertEqual(request.httpMethod, "GET")
+        XCTAssertEqual(request.url?.absoluteString, "example.com/user?id=123")
     }
 }
