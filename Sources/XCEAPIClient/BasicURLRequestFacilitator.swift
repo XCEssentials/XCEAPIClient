@@ -33,7 +33,6 @@ import Foundation
 public
 struct BasicURLRequestFacilitator: URLRequestFacilitator
 {
-    public
     let session: URLSession
     
     public
@@ -45,8 +44,7 @@ struct BasicURLRequestFacilitator: URLRequestFacilitator
     init(
         sharedPrefixURL: URL,
         session: URLSession = .shared
-        )
-    {
+    ) {
         self.sharedPrefixURL = sharedPrefixURL
         self.session = session
     }

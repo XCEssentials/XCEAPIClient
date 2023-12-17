@@ -31,9 +31,12 @@ import Foundation
 public
 protocol URLRequestFacilitator
 {
-    var session: URLSession { get }
-    
     var sharedPrefixURL: URL { get }
+    
+    init(
+        sharedPrefixURL: URL,
+        session: URLSession
+    )
 }
 
 // MARK: - Commands - Public
