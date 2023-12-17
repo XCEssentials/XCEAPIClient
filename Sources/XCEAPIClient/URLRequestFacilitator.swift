@@ -49,7 +49,7 @@ extension URLRequestFacilitator
         
         do
         {
-            parametersData = try R.toDataConverter(definition)
+            parametersData = try R.encodingHandler(definition)
         }
         catch
         {

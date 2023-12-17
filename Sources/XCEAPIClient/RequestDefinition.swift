@@ -40,7 +40,7 @@ protocol RequestDefinition: Encodable
     var parameterEncoding: ParameterEncoding { get }
     
     static
-    var toDataConverter: (Self) throws -> Data { get }
+    var encodingHandler: (Self) throws -> Data { get }
         
     static
     var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { get }
@@ -52,7 +52,7 @@ public
 extension RequestDefinition
 {
     static
-    var toDataConverter: (Self) throws -> Data { JSONEncoder().encode }
+    var encodingHandler: (Self) throws -> Data { JSONEncoder().encode }
         
     static
     var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { .init() }
