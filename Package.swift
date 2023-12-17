@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -14,15 +14,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "XCEAPIClient",
-            path: "Sources/Core"
+            name: "XCEAPIClient"
         ),
         .testTarget(
             name: "XCEAPIClientAllTests",
             dependencies: [
                 "XCEAPIClient"
-            ],
-            path: "Tests/AllTests"
+            ]
         ),
     ]
 )
