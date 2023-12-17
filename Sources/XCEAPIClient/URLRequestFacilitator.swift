@@ -85,7 +85,7 @@ extension URLRequestFacilitator
         
         return try await prepareRequest(
             R.method,
-            relativePath: R.relativePath,
+            relativePath: definition.relativePath,
             parameterEncoding: R.parameterEncoding,
             parameters: parameters
         )

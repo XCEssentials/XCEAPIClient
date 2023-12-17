@@ -31,7 +31,6 @@ import Foundation
 public
 protocol RequestDefinition: Encodable
 {
-    static
     var relativePath: String { get }
     
     static

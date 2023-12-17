@@ -10,8 +10,13 @@ class RequestDefinitionTests: XCTestCase
 {
     struct UserRequestDefinition: RequestDefinition
     {
-        static
-        let relativePath: String = "user"
+        enum CodingKeys: CodingKey
+        {
+            // NOTE: missing `id` since it's in the path
+            case optionalFlag
+        }
+        
+        var relativePath: String { "users/\(id)" }
         
         static
         let method: HTTPMethod? = .get
@@ -41,15 +46,21 @@ class RequestDefinitionTests: XCTestCase
 
 extension RequestDefinitionTests
 {
+    func test_dynamicRelativePath() async throws
+    {
+        let definition = UserRequestDefinition(id: "123")
+        let request = try await facilitator.prepareRequest(from: definition)
+        
+        XCTAssertEqual(request.url?.absoluteString, "host.com/users/123")
+    }
+    
     func test_buildParameters_withoutOptional() async throws
     {
         let definition = UserRequestDefinition(id: "123")
         let request = try await facilitator.prepareRequest(from: definition)
         let components = URLComponents(string: request.url!.absoluteString)!
-        let sut = components.queryItems!
         
-        XCTAssertEqual(sut.count, 1)
-        XCTAssertTrue(sut.contains(where: { $0.name == "id" && $0.value == "123" }))
+        XCTAssertNil(components.queryItems)
     }
     
     func test_buildParameters_withOptional() async throws
@@ -59,8 +70,7 @@ extension RequestDefinitionTests
         let components = URLComponents(string: request.url!.absoluteString)!
         let sut = components.queryItems!
         
-        XCTAssertEqual(sut.count, 2)
-        XCTAssertTrue(sut.contains(where: { $0.name == "id" && $0.value == "123" }))
+        XCTAssertEqual(sut.count, 1)
         XCTAssertTrue(sut.contains(where: { $0.name == "optionalFlag" && $0.value == "22" }))
     }
 }
