@@ -31,9 +31,12 @@ import Foundation
 public
 protocol URLRequestFacilitator
 {
-    var session: URLSession { get }
-    
     var sharedPrefixURL: URL { get }
+    
+    init(
+        sharedPrefixURL: URL,
+        session: URLSession
+    )
 }
 
 // MARK: - Commands - Public
@@ -43,17 +46,17 @@ extension URLRequestFacilitator
 {
     func prepareRequest<R: RequestDefinition>(
         from definition: R
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
+    ) async throws -> URLRequest {
+    
         let parametersData: Data
         
         do
         {
-            parametersData = try R.toDataConverter(definition)
+            parametersData = try R.encodingHandler(definition)
         }
         catch
         {
-            return .failure(.conversionIntoDataFailed(error))
+            throw PrepareRequestIssue.conversionIntoDataFailed(error)
         }
         
         //---
@@ -70,29 +73,28 @@ extension URLRequestFacilitator
         }
         catch
         {
-            return .failure(.conversionDataIntoJSONObjectFailed(error))
+            throw PrepareRequestIssue.conversionDataIntoJSONObjectFailed(error)
         }
         
         //---
         
         guard
             let parameters = parametersObject as? Parameters
-        else
-        {
-            return .failure(.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject))
+        else {
+            throw PrepareRequestIssue.conversionJSONObjectIntoDictionaryFailed(theObject: parametersObject)
         }
         
         //---
         
-        return prepareRequest(
+        return try await prepareRequest(
             R.method,
-            relativePath: R.relativePath,
+            relativePath: definition.relativePath,
             parameterEncoding: R.parameterEncoding,
             parameters: parameters
         )
     }
 }
-    
+
 // MARK: - Internal methods
 
 extension URLRequestFacilitator
@@ -102,30 +104,23 @@ extension URLRequestFacilitator
         relativePath: String,
         parameterEncoding: ParameterEncoding,
         parameters: Parameters? = nil
-        ) -> Result<URLRequest, PrepareRequestIssue>
-    {
+    ) async throws -> URLRequest {
+        
         guard
             let encodedRelativePath = relativePath
                 .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         else
         {
-            return .failure(.invalidRelativePath(relativePath))
+            throw PrepareRequestIssue.invalidRelativePath(relativePath)
         }
-        
-        //---
         
         var targetURL = sharedPrefixURL
         targetURL.appendPathComponent(encodedRelativePath)
         var result = URLRequest(url: targetURL)
         result.httpMethod = method?.rawValue
-        
-        switch parameterEncoding.encode(result, with: parameters)
-        {
-        case .success(let output):
-            return .success(output)
-            
-        case .failure(let error):
-            return .failure(.requestEncodingFailed(error))
-        }
+
+        return try parameterEncoding
+            .encode(result, with: parameters)
+            .get()
     }
 }

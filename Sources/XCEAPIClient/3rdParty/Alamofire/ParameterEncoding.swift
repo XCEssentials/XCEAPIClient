@@ -28,7 +28,9 @@ import Foundation
 /// HTTP method definitions.
 ///
 /// See https://tools.ietf.org/html/rfc7231#section-4.3
-public enum HTTPMethod: String {
+public
+enum HTTPMethod: String
+{
     case options = "OPTIONS"
     case get     = "GET"
     case head    = "HEAD"
@@ -40,34 +42,46 @@ public enum HTTPMethod: String {
     case connect = "CONNECT"
 }
 
-// MARK: -
+//---
+
 /// A dictionary of parameters to apply to a `URLRequest`.
-public typealias Parameters = [String: Any]
+public
+typealias Parameters = [String: Any]
+
+//---
 
 /// A type used to define how a set of parameters are applied to a `URLRequest`.
-public protocol ParameterEncoding {
+public
+protocol ParameterEncoding
+{
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
     /// - parameter parameters: The parameters to apply.
     ///
-    /// - throws: An `AFError.parameterEncodingFailed` error if encoding fails.
+    /// - throws: `RequestEncodingIssue` error, if encoding fails.
     ///
     /// - returns: The encoded request.
-    func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue>
+    func encode(
+        _ urlRequest: URLRequest,
+        with parameters: Parameters?
+    ) -> Result<URLRequest, RequestEncodingIssue>
 }
 
-// MARK: -
-/// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as the HTTP
-/// body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
+
+//---
+
+/// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as
+/// the HTTP body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
 /// the HTTP body depends on the destination of the encoding.
 ///
 /// The `Content-Type` HTTP header field of an encoded request with HTTP body is set to
 /// `application/x-www-form-urlencoded; charset=utf-8`. Since there is no published specification for how to encode
 /// collection types, the convention of appending `[]` to the key for array values (`foo[]=1&foo[]=2`), and appending
 /// the key surrounded by square brackets for nested dictionary values (`foo[bar]=baz`).
-public struct URLEncoding: ParameterEncoding {
-    
+public
+struct URLEncoding: ParameterEncoding
+{
     // MARK: Helper Types
     /// Defines whether the url-encoded query string is applied to the existing query string or HTTP body of the
     /// resulting URL request.
@@ -76,25 +90,48 @@ public struct URLEncoding: ParameterEncoding {
     ///                    requests and sets as the HTTP body for requests with any other HTTP method.
     /// - queryString:     Sets or appends encoded query string result to existing query string.
     /// - httpBody:        Sets encoded query string result as the HTTP body of the URL request.
-    public enum Destination {
+    public 
+    enum Destination
+    {
         case methodDependent, queryString, httpBody
     }
     
     // MARK: Properties
     /// Returns a default `URLEncoding` instance.
-    public static var `default`: URLEncoding { return URLEncoding() }
+    public
+    static
+    var `default`: URLEncoding
+    {
+        return URLEncoding()
+    }
     
     /// Returns a `URLEncoding` instance with a `.methodDependent` destination.
-    public static var methodDependent: URLEncoding { return URLEncoding() }
+    public 
+    static
+    var methodDependent: URLEncoding
+    {
+        return URLEncoding()
+    }
     
     /// Returns a `URLEncoding` instance with a `.queryString` destination.
-    public static var queryString: URLEncoding { return URLEncoding(destination: .queryString) }
+    public 
+    static
+    var queryString: URLEncoding 
+    {
+        return URLEncoding(destination: .queryString)
+    }
     
     /// Returns a `URLEncoding` instance with an `.httpBody` destination.
-    public static var httpBody: URLEncoding { return URLEncoding(destination: .httpBody) }
+    public 
+    static
+    var httpBody: URLEncoding
+    {
+        return URLEncoding(destination: .httpBody)
+    }
     
     /// The destination defining where the encoded query string is to be applied to the URL request.
-    public let destination: Destination
+    public
+    let destination: Destination
     
     // MARK: Initialization
     /// Creates a `URLEncoding` instance using the specified destination.
@@ -102,7 +139,9 @@ public struct URLEncoding: ParameterEncoding {
     /// - parameter destination: The destination defining where the encoded query string is to be applied.
     ///
     /// - returns: The new `URLEncoding` instance.
-    public init(destination: Destination = .methodDependent) {
+    public
+    init(destination: Destination = .methodDependent)
+    {
         self.destination = destination
     }
     
@@ -115,24 +154,50 @@ public struct URLEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
+    public func encode(
+        _ urlRequest: URLRequest,
+        with parameters: Parameters?
+    ) -> Result<URLRequest, RequestEncodingIssue> {
+        
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return .success(urlRequest) }
+        guard
+            let parameters = parameters
+        else
+        {
+            return .success(urlRequest)
+        }
         
-        if let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? HTTPMethod.get.rawValue), encodesParametersInURL(with: method) {
-            guard let url = urlRequest.url else {
+        if
+            let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? HTTPMethod.get.rawValue),
+            encodesParametersInURL(with: method)
+        {
+            guard
+                let url = urlRequest.url
+            else
+            {
                 return .failure(RequestEncodingIssue(reason: "URL encoding failed - missing URL", error: nil))
             }
             
-            if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !parameters.isEmpty {
+            if 
+                var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                !parameters.isEmpty
+            {
                 let percentEncodedQuery = (urlComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(parameters)
                 urlComponents.percentEncodedQuery = percentEncodedQuery
                 urlRequest.url = urlComponents.url
             }
-        } else {
-            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
-                urlRequest.setValue(ContentType.formURLEncoded.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
+        }
+        else
+        {
+            if
+                urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil
+            {
+                urlRequest
+                    .setValue(
+                        ContentType.formURLEncoded.rawValue,
+                        forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue
+                    )
             }
             
             urlRequest.httpBody = query(parameters).data(using: .utf8, allowLossyConversion: false)
@@ -147,26 +212,50 @@ public struct URLEncoding: ParameterEncoding {
     /// - parameter value: The value of the query component.
     ///
     /// - returns: The percent-escaped, URL encoded query string components.
-    public func queryComponents(fromKey key: String, value: Any) -> [(String, String)] {
+    public
+    func queryComponents(fromKey key: String, value: Any) -> [(String, String)]
+    {
         var components: [(String, String)] = []
         
-        if let dictionary = value as? [String: Any] {
-            for (nestedKey, value) in dictionary {
+        if
+            let dictionary = value as? [String: Any]
+        {
+            for (nestedKey, value) in dictionary
+            {
                 components += queryComponents(fromKey: "\(key)[\(nestedKey)]", value: value)
             }
-        } else if let array = value as? [Any] {
-            for value in array {
+        }
+        else
+        if
+            let array = value as? [Any]
+        {
+            for value in array
+            {
                 components += queryComponents(fromKey: "\(key)[]", value: value)
             }
-        } else if let value = value as? NSNumber {
-            if value.isBool {
+        }
+        else
+        if
+            let value = value as? NSNumber
+        {
+            if
+                value.isBool
+            {
                 components.append((escape(key), escape((value.boolValue ? "1" : "0"))))
-            } else {
+            }
+            else
+            {
                 components.append((escape(key), escape("\(value)")))
             }
-        } else if let bool = value as? Bool {
+        } 
+        else
+        if
+            let bool = value as? Bool
+        {
             components.append((escape(key), escape((bool ? "1" : "0"))))
-        } else {
+        } 
+        else
+        {
             components.append((escape(key), escape("\(value)")))
         }
         
@@ -187,7 +276,9 @@ public struct URLEncoding: ParameterEncoding {
     /// - parameter string: The string to be percent-escaped.
     ///
     /// - returns: The percent-escaped string.
-    public func escape(_ string: String) -> String {
+    public 
+    func escape(_ string: String) -> String
+    {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
         
@@ -206,13 +297,18 @@ public struct URLEncoding: ParameterEncoding {
         //      - https://github.com/Alamofire/Alamofire/issues/206
         //
         //==========================================================================================================
-        if #available(iOS 8.3, *) {
+        if
+            #available(iOS 8.3, *)
+        {
             escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? string
-        } else {
+        }
+        else
+        {
             let batchSize = 50
             var index = string.startIndex
             
-            while index != string.endIndex {
+            while index != string.endIndex 
+            {
                 let startIndex = index
                 let endIndex = string.index(index, offsetBy: batchSize, limitedBy: string.endIndex) ?? string.endIndex
                 let range = startIndex..<endIndex
@@ -228,49 +324,73 @@ public struct URLEncoding: ParameterEncoding {
         return escaped
     }
     
-    private func query(_ parameters: [String: Any]) -> String {
+    private 
+    func query(_ parameters: [String: Any]) -> String
+    {
         var components: [(String, String)] = []
         
-        for key in parameters.keys.sorted(by: <) {
+        for key in parameters.keys.sorted(by: <) 
+        {
             let value = parameters[key]!
             components += queryComponents(fromKey: key, value: value)
         }
+        
         return components.map { "\($0)=\($1)" }.joined(separator: "&")
     }
     
-    private func encodesParametersInURL(with method: HTTPMethod) -> Bool {
-        switch destination {
-        case .queryString:
-            return true
-        case .httpBody:
-            return false
-        default:
-            break
+    private
+    func encodesParametersInURL(with method: HTTPMethod) -> Bool
+    {
+        switch destination
+        {
+            case .queryString:
+                return true
+                
+            case .httpBody:
+                return false
+                
+            default:
+                break
         }
         
-        switch method {
-        case .get, .head, .delete:
-            return true
-        default:
-            return false
+        switch method 
+        {
+            case .get, .head, .delete:
+                return true
+                
+            default:
+                return false
         }
     }
 }
 
-// MARK: -
-/// Uses `JSONSerialization` to create a JSON representation of the parameters object, which is set as the body of the
-/// request. The `Content-Type` HTTP header field of an encoded request is set to `application/json`.
-public struct JSONEncoding: ParameterEncoding {
-    
+//---
+
+/// Uses JSONSerialization to create a JSON representation of the parameters object, which is set as the body of the
+/// request. The Content-Type HTTP header field of an encoded request is set to application/json.
+public
+struct JSONEncoding: ParameterEncoding
+{
     // MARK: Properties
     /// Returns a `JSONEncoding` instance with default writing options.
-    public static var `default`: JSONEncoding { return JSONEncoding() }
+    public 
+    static
+    var `default`: JSONEncoding
+    {
+        return JSONEncoding()
+    }
     
     /// Returns a `JSONEncoding` instance with `.prettyPrinted` writing options.
-    public static var prettyPrinted: JSONEncoding { return JSONEncoding(options: .prettyPrinted) }
+    public 
+    static
+    var prettyPrinted: JSONEncoding
+    {
+        return JSONEncoding(options: .prettyPrinted)
+    }
     
     /// The options for writing the parameters as JSON data.
-    public let options: JSONSerialization.WritingOptions
+    public
+    let options: JSONSerialization.WritingOptions
     
     // MARK: Initialization
     /// Creates a `JSONEncoding` instance using the specified options.
@@ -278,7 +398,10 @@ public struct JSONEncoding: ParameterEncoding {
     /// - parameter options: The options for writing the parameters as JSON data.
     ///
     /// - returns: The new `JSONEncoding` instance.
-    public init(options: JSONSerialization.WritingOptions = []) {
+    
+    public
+    init(options: JSONSerialization.WritingOptions = [])
+    {
         self.options = options
     }
     
@@ -291,20 +414,39 @@ public struct JSONEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
+    public
+    func encode(
+        _ urlRequest: URLRequest,
+        with parameters: Parameters?
+    ) -> Result<URLRequest, RequestEncodingIssue> {
+        
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return .success(urlRequest) }
+        guard 
+            let parameters = parameters
+        else
+        {
+            return .success(urlRequest)
+        }
         
-        do {
+        do
+        {
             let data = try JSONSerialization.data(withJSONObject: parameters, options: options)
             
-            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
-                urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
+            if 
+                urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil
+            {
+                urlRequest
+                    .setValue(
+                        ContentType.json.rawValue,
+                        forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue
+                    )
             }
             
             urlRequest.httpBody = data
-        } catch {
+        } 
+        catch
+        {
             return .failure(RequestEncodingIssue(reason: "JSON encoding failed", error: error))
         }
         
@@ -319,12 +461,23 @@ public struct JSONEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, withJSONObject jsonObject: Any? = nil) throws -> URLRequest {
+    public
+    func encode(
+        _ urlRequest: URLRequest,
+        withJSONObject jsonObject: Any? = nil
+    ) throws -> URLRequest {
+        
         var urlRequest = urlRequest
         
-        guard let jsonObject = jsonObject else { return urlRequest }
+        guard
+            let jsonObject = jsonObject
+        else
+        {
+            return urlRequest
+        }
         
-        do {
+        do
+        {
             let data = try JSONSerialization.data(withJSONObject: jsonObject, options: options)
             
             if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
@@ -332,7 +485,9 @@ public struct JSONEncoding: ParameterEncoding {
             }
             
             urlRequest.httpBody = data
-        } catch {
+        }
+        catch
+        {
             throw RequestEncodingIssue(reason: "JSON encoding failed", error: error)
         }
         
@@ -340,27 +495,46 @@ public struct JSONEncoding: ParameterEncoding {
     }
 }
 
-// MARK: -
+//---
+
 /// Uses `PropertyListSerialization` to create a plist representation of the parameters object, according to the
 /// associated format and write options values, which is set as the body of the request. The `Content-Type` HTTP header
 /// field of an encoded request is set to `application/x-plist`.
-public struct PropertyListEncoding: ParameterEncoding {
-    
+public
+struct PropertyListEncoding: ParameterEncoding
+{
     // MARK: Properties
     /// Returns a default `PropertyListEncoding` instance.
-    public static var `default`: PropertyListEncoding { return PropertyListEncoding() }
+    public 
+    static
+    var `default`: PropertyListEncoding
+    {
+        return PropertyListEncoding()
+    }
     
     /// Returns a `PropertyListEncoding` instance with xml formatting and default writing options.
-    public static var xml: PropertyListEncoding { return PropertyListEncoding(format: .xml) }
+    public 
+    static
+    var xml: PropertyListEncoding
+    {
+        return PropertyListEncoding(format: .xml)
+    }
     
     /// Returns a `PropertyListEncoding` instance with binary formatting and default writing options.
-    public static var binary: PropertyListEncoding { return PropertyListEncoding(format: .binary) }
+    public 
+    static
+    var binary: PropertyListEncoding
+    {
+        return PropertyListEncoding(format: .binary)
+    }
     
     /// The property list serialization format.
-    public let format: PropertyListSerialization.PropertyListFormat
+    public 
+    let format: PropertyListSerialization.PropertyListFormat
     
     /// The options for writing the parameters as plist data.
-    public let options: PropertyListSerialization.WriteOptions
+    public 
+    let options: PropertyListSerialization.WriteOptions
     
     // MARK: Initialization
     /// Creates a `PropertyListEncoding` instance using the specified format and options.
@@ -369,10 +543,11 @@ public struct PropertyListEncoding: ParameterEncoding {
     /// - parameter options: The options for writing the parameters as plist data.
     ///
     /// - returns: The new `PropertyListEncoding` instance.
-    public init(
+    public
+    init(
         format: PropertyListSerialization.PropertyListFormat = .xml,
-        options: PropertyListSerialization.WriteOptions = 0)
-    {
+        options: PropertyListSerialization.WriteOptions = 0
+    ) {
         self.format = format
         self.options = options
     }
@@ -386,24 +561,43 @@ public struct PropertyListEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: Parameters?) -> Result<URLRequest, RequestEncodingIssue> {
+    public 
+    func encode(
+        _ urlRequest: URLRequest,
+        with parameters: Parameters?
+    ) -> Result<URLRequest, RequestEncodingIssue> {
+        
         var urlRequest = urlRequest
         
-        guard let parameters = parameters else { return .success(urlRequest) }
+        guard
+            let parameters = parameters
+        else
+        {
+            return .success(urlRequest)
+        }
         
-        do {
+        do
+        {
             let data = try PropertyListSerialization.data(
                 fromPropertyList: parameters,
                 format: format,
                 options: options
             )
             
-            if urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil {
-                urlRequest.setValue(ContentType.plist.rawValue, forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue)
+            if
+                urlRequest.value(forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue) == nil
+            {
+                urlRequest
+                    .setValue(
+                        ContentType.plist.rawValue,
+                        forHTTPHeaderField: HTTPHeaderFieldName.contentType.rawValue
+                    )
             }
             
             urlRequest.httpBody = data
-        } catch {
+        }
+        catch
+        {
             return .failure(RequestEncodingIssue(reason: "Property list encoding failed", error: error))
         }
         
@@ -411,7 +605,13 @@ public struct PropertyListEncoding: ParameterEncoding {
     }
 }
 
-// MARK: -
-extension NSNumber {
-    fileprivate var isBool: Bool { return CFBooleanGetTypeID() == CFGetTypeID(self) }
+//---
+
+extension NSNumber 
+{
+    fileprivate 
+    var isBool: Bool
+    {
+        return CFBooleanGetTypeID() == CFGetTypeID(self)
+    }
 }

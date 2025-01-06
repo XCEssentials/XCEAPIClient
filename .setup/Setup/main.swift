@@ -11,7 +11,7 @@ print("--- BEGIN of '\(Executable.name)' script ---")
 
 // MARK: Parameters
 
-Spec.BuildSettings.swiftVersion.value = "5.3"
+Spec.BuildSettings.swiftVersion.value = "5.9"
 
 let localRepo = try Spec.LocalRepo.current()
 
@@ -32,7 +32,7 @@ let company = (
 
 let project = (
     name: remoteRepo.name,
-    summary: "Lightweight HTTP-based API client",
+    summary: "Lightweight URLSession-based HTTP API client",
     copyrightYear: 2016
 )
 
@@ -55,11 +55,6 @@ let subSpecs: PerSubSpec = (
 let targetNames: PerSubSpec = (
     productName,
     productName + subSpecs.tests
-)
-
-let sourcesLocations: PerSubSpec = (
-    Spec.Locations.sources + subSpecs.core,
-    Spec.Locations.tests + subSpecs.tests
 )
 
 // MARK: Parameters - Summary
@@ -163,15 +158,13 @@ try CustomTextFile("""
         ],
         targets: [
             .target(
-                name: "\(targetNames.core)",
-                path: "\(sourcesLocations.core)"
+                name: "\(targetNames.core)"
             ),
             .testTarget(
                 name: "\(targetNames.tests)",
                 dependencies: [
                     "\(targetNames.core)"
-                ],
-                path: "\(sourcesLocations.tests)"
+                ]
             ),
         ]
     )

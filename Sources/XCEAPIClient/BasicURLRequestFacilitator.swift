@@ -28,20 +28,24 @@ import Foundation
 
 //---
 
+/// Minimal implementation of `URLRequestFacilitator`,
+/// suitable for a wide variety of URL requests in most use cases.
 public
-enum HTTPHeaderFieldName: String
+struct BasicURLRequestFacilitator: URLRequestFacilitator
 {
-    case
-        authorization = "Authorization",
-        contentType = "Content-Type"
-}
-
-//---
-
-public
-enum ContentType: String
-{
-    case formURLEncoded = "application/x-www-form-urlencoded; charset=utf-8"
-    case json = "application/json"
-    case plist = "application/x-plist"
+    let session: URLSession
+    
+    public
+    let sharedPrefixURL: URL
+    
+    // MARK: - Initializers
+    
+    public
+    init(
+        sharedPrefixURL: URL,
+        session: URLSession = .shared
+    ) {
+        self.sharedPrefixURL = sharedPrefixURL
+        self.session = session
+    }
 }

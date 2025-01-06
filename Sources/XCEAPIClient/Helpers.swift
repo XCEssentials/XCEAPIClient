@@ -29,32 +29,18 @@ import Foundation
 //---
 
 public
-protocol RequestDefinition: Encodable
+enum HTTPHeaderFieldName: String
 {
-    static
-    var relativePath: String { get }
-    
-    static
-    var method: HTTPMethod? { get }
-    
-    static
-    var parameterEncoding: ParameterEncoding { get }
-    
-    static
-    var toDataConverter: (Self) throws -> Data { get }
-        
-    static
-    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { get }
+    case authorization = "Authorization"
+    case contentType = "Content-Type"
 }
 
 //---
 
 public
-extension RequestDefinition
+enum ContentType: String
 {
-    static
-    var toDataConverter: (Self) throws -> Data { JSONEncoder().encode }
-        
-    static
-    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { .init() }
+    case formURLEncoded = "application/x-www-form-urlencoded; charset=utf-8"
+    case json = "application/json"
+    case plist = "application/x-plist"
 }

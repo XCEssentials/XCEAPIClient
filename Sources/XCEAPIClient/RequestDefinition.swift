@@ -28,26 +28,32 @@ import Foundation
 
 //---
 
-/// Minimal implementation of `URLRequestFacilitator`,
-/// suitable for wde variaty of URL requests in most usecases.
 public
-struct BasicURLRequestFacilitator: URLRequestFacilitator
+protocol RequestDefinition: Encodable
 {
-    public
-    let session: URLSession
+    var relativePath: String { get }
     
-    public
-    let sharedPrefixURL: URL
+    static
+    var method: HTTPMethod? { get }
     
-    // MARK: - Initializers
+    static
+    var parameterEncoding: ParameterEncoding { get }
     
-    public
-    init(
-        sharedPrefixURL: URL,
-        session: URLSession = .shared
-        )
-    {
-        self.sharedPrefixURL = sharedPrefixURL
-        self.session = session
-    }
+    static
+    var encodingHandler: (Self) throws -> Data { get }
+        
+    static
+    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { get }
+}
+
+//---
+
+public
+extension RequestDefinition
+{
+    static
+    var encodingHandler: (Self) throws -> Data { JSONEncoder().encode }
+        
+    static
+    var dataToDictionaryConversionOptions: JSONSerialization.ReadingOptions { .init() }
 }
